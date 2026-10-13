@@ -249,7 +249,7 @@ function bbcChart(S2,o){o=o||{};const w=300,h=150,L=34,R=18,T=12,B=112,dec=o.dec
 const all=[].concat(...S2.map(s=>s.p.map(q=>q[1]))),mn=Math.min(...all),mx=Math.max(...all),pad=((mx-mn)||mx||1)*.12,lo=o.int?0:((mn>=0&&mn<mx*.5)?0:Math.max(0,mn-pad)),hi=o.int?Math.max(2,Math.ceil(mx/2)*2):mx+pad*.6,
 xs0=S2[0].p.map(q=>q[0]),x0=xs0[0],x1=xs0[xs0.length-1],X=x=>L+(x-x0)/((x1-x0)||1)*(w-L-R),Y=v=>B-(v-lo)/((hi-lo)||1)*(B-T),tk=[lo,(lo+hi)/2,hi],
 span=(x1-x0)||1,raw=span/5,pw=Math.pow(10,Math.floor(Math.log10(raw))),st=[1,2,5,10].map(m=>m*pw).find(v=>v>=raw)||pw*10,xt=[];
-for(let v=Math.ceil(x0/st)*st;v<=x1+1e-9;v+=st)xt.push(v);
+for(let v=Math.ceil(x0/st)*st;v<=x1+1e-9;v+=st)xt.push(v);if(xt.length&&x1-xt[xt.length-1]>=st*.4)xt.push(x1);
 const n=xs0.length,ix=Math.round((n-1)*.55),rank=S2.map((s,i)=>[s.p[Math.min(ix,s.p.length-1)][1],i]).sort((a,b)=>b[0]-a[0]).map(x=>x[1]),
 halo='stroke="#fff" stroke-width="3" paint-order="stroke" stroke-linejoin="round"';
 return `<div class="ch"><svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;display:block"><g stroke="#e3e5ea" stroke-width="1" stroke-dasharray="2 3">${[tk[1],tk[2]].map(t=>`<path d="M${L} ${Y(t).toFixed(1)}H${w-R}"/>`).join('')}</g><path d="M${L} ${B}H${w-R}" stroke="#cfd3da" stroke-width="1"/><g stroke="#555" stroke-width="1">${tk.map(t=>`<path d="M${L-4} ${Y(t).toFixed(1)}H${L}"/>`).join('')}${xt.map(v=>`<path d="M${X(v).toFixed(1)} ${B}v4"/>`).join('')}</g><g fill="#444" stroke="none" font-size="8" font-family="Inter,sans-serif" text-anchor="end">${tk.map(t=>`<text x="${L-7}" y="${(Y(t)+3).toFixed(1)}">${+t.toFixed(dec)}${u}</text>`).join('')}</g><g fill="#444" stroke="none" font-size="8" font-family="Inter,sans-serif" text-anchor="middle">${xt.map(v=>`<text x="${X(v).toFixed(1)}" y="${B+15}">${+v.toFixed(1)}</text>`).join('')}</g>`
@@ -257,10 +257,13 @@ return `<div class="ch"><svg viewBox="0 0 ${w} ${h}" style="width:100%;height:au
 +(o.dots?S2.map(s=>s.p.map((q,i)=>`<circle cx="${X(q[0]).toFixed(1)}" cy="${Y(q[1]).toFixed(1)}" r="${i==s.p.length-1?3.6:3}" fill="${i==s.p.length-1?s.c:'#fff'}" stroke="${s.c}" stroke-width="1.6"/>`).join('')).join(''):'')
 +(S2.length>1?S2.map((s,k)=>{const q=s.p[Math.min(ix,s.p.length-1)],up=rank.indexOf(k)==0;return `<text x="${X(q[0]).toFixed(1)}" y="${(Y(q[1])+(up?-8:16)).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="800" fill="${s.c}" ${halo} font-family="Inter,sans-serif">${s.n}</text>`}).join(''):'')
 +`</svg></div>`}
-const wig=(b,d,fin,a)=>Math.sin(d*.7+(parseInt(b.id.slice(3))%10))*a*fin*(1-d/45),DAYS=[5,10,15,20,25,30,35,40,45];
-const feedS=b=>DAYS.map(d=>[d,Math.round(10800*(12+d*2.9)/1000*parseFloat(b.fcr)/1.58)]);
-const fcrS=b=>{const f=parseFloat(b.fcr);return DAYS.map(d=>[d,f*(.6+.4*Math.pow(d/45,1.3))+wig(b,d,f,.012)])};
-const mortS=b=>{const f=parseFloat(b.mp);return DAYS.map(d=>[d,f*Math.pow(d/45,.75)+wig(b,d,f,.06)])};
+const DAYS=[...Array(46).keys()],nz=(b,d)=>{const x=Math.sin(d*12.9898+parseInt(b.id.slice(3))*78.233)*43758.5453;return x-Math.floor(x)-.5};
+const feedS=b=>DAYS.map(d=>{const base=10800*(12+d*2.9)/1000*parseFloat(b.fcr)/1.58;return [d,Math.round(base*(1+nz(b,d)*.09+(d%11==4?-.09:0)))]});
+const fcrS=b=>{const f=parseFloat(b.fcr);return DAYS.map(d=>[d,f*(.6+.4*Math.pow(d/45,1.3))+nz(b,d)*.07*f*(1-d/45)])};
+const mortS=b=>{const p=perfData(b),mp=parseFloat(b.mp),fw=Math.min(p.fw,mp),lw=Math.min(p.lw,Math.max(0,mp-fw)),mid=Math.max(0,mp-fw-lw),
+seg=(a,z,tot)=>{const ws=[];for(let d=a;d<=z;d++)ws.push(.35+Math.abs(nz(b,d))*2);const T=ws.reduce((s,x)=>s+x,0);return ws.map(x=>x/T*tot)},
+inc=[0].concat(seg(1,7,fw),seg(8,38,mid),seg(39,45,lw));let c=0;return DAYS.map(d=>{c+=inc[d];return [d,c]})};
+
 function trendCmp(b){const p=BT[BT.indexOf(b)+1],S2=[{n:'This batch',c:'#ff5a5f',p:feedS(b)}];if(p)S2.push({n:'Previous batch',c:'#4f6bd8',p:feedS(p)});return bbcChart(S2,{dec:0})}
 function cmpBody(b){const p=BT[BT.indexOf(b)+1];if(!p)return '';
 const blk=(lab,k,u,fn)=>{const tv=parseFloat(b[k]),pv=parseFloat(p[k]),d=tv-pv,good=d<=0,t=Math.abs(d)<.005?'Same':(d>0?'+':'\u2212')+Math.abs(d).toFixed(2)+u+(good?' \u25bc better':' \u25b2 higher');
@@ -275,7 +278,7 @@ function sumCard(b){const d=perfData(b),N=10800,cu=Math.round(N*d.culls/100),lv=
 const p1=pieBlock('Birds placed: '+n(N),[[lv,'#15803d','Live birds',n(lv)],[d.cumMort,'#ff5a5f','Mortality',n(d.cumMort)],[cu,'#d97706','Culls',n(cu)]]),
 p2=pieBlock('Mortality timing (% of chicks placed)',[[d.fw,'#ff5a5f','First week',d.fw.toFixed(2)+' %'],[mid,'#4f6bd8','Middle weeks',mid.toFixed(2)+' %'],[d.lw,'#d97706','Last week',d.lw.toFixed(2)+' %']]);
 return `<div class="card" style="padding:16px"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><h3 style="font-size:16px">Batch Summary</h3><p class="sm" style="margin:2px 0 0">From the performance record below</p></div><span class="cpd ok">Liveability ${live}%</span></div>${p1||p2?p1+p2:'<p class="sm" style="margin-top:14px">No data to show yet</p>'}</div>`}
-function effBatch(b){const f=+b.fcr,pts=[];for(let d=5;d<=45;d+=5)pts.push([d,Math.round(10800*(12+d*2.9)/1000)]);
+function effBatch(b){const f=+b.fcr;
 return `<div class="ec"><div class="ecb"><h3>Feed Conversion Ratio (FCR)</h3><div class="fcr"><small>TOTAL FCR</small><strong>${b.fcr}</strong><div><b>FCR = Feed Consumption \u00f7 Body Weight</b>e.g. 3,200 kg \u00f7 2,000 kg = 1.60</div></div><div class="tr">FCR Track (Target &lt; 1.65)</div><div class="bar"><i style="width:${(f/4*100).toFixed(1)}%">${b.fcr}</i></div><div class="sc"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></div></div></div>${cmpCard(b)}<div class="ec"><div class="ecb"><h3>Daily Intake Trend</h3><div style="font-weight:700;font-size:12px;margin:0 2px">Over Period (Day 0 - Day 45)</div>${trendCmp(b)}</div></div>`}
 function entry(){const sv=S.saved[S.day],f={m:S.form.m!==''?S.form.m:(sv?sv.m:''),f:S.form.f!==''?S.form.f:(sv?sv.f:''),w:S.form.w!==''?S.form.w:(sv?sv.w:'')};return `<div class="fg"><small>Mortality</small><div class="fi"><input id="fm" inputmode="numeric" placeholder="0" value="${f.m}"><span>Birds</span></div></div>
 <div class="fg"><small>Feed</small><div class="fi"><input id="ff" inputmode="decimal" placeholder="0" value="${f.f}"><span>kg</span></div></div>
