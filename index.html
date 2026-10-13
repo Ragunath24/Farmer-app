@@ -234,7 +234,7 @@ function batch(){let mt=6,cf=0;for(const d in S.saved)if(+d<=S.day){mt+=S.saved[
 <div class="st"><div>Placed<b>10,800</b></div><div>Cumulative Mortality<b>${mt}</b><i>Birds</i></div><div>Cumulative Feed<b>${cf}</b><i>kg</i></div><div>Birds Now<b>${(10800-mt).toLocaleString('en-US')}</b></div></div>
 <div class="tabs"><button class="${S.tab?'':'on'}" data-a="tab" data-t="0">Daily Entry</button><button class="${S.tab?'on':''}" data-a="tab" data-t="1">Efficiency &amp; Graphs</button></div>`}
 function dayDual(){const days=[];for(let d=Math.max(2,S.day-9);d<=S.day;d++)days.push(d);
-const mk=k=>[{n:'Today',c:'#189484',p:days.map(d=>[d,+dd(d)[k]])},{n:'Previous day',c:'#4f6bd8',p:days.map(d=>[d,+dd(d-1)[k]])}];
+const mk=k=>[{n:'Today',c:'#ff5a5f',p:days.map(d=>[d,+dd(d)[k]])},{n:'Previous day',c:'#4f6bd8',p:days.map(d=>[d,+dd(d-1)[k]])}];
 return `<div style="font-weight:700;font-size:12px;margin:10px 2px 0">Feed (kg)</div>${bbcChart(mk('f'),{dec:0})}<div style="font-weight:700;font-size:12px;margin:12px 2px 0">Avg. Weight (kg)</div>${bbcChart(mk('w'),{dec:2})}`}
 function eff(){const t=dd(S.day),y=dd(S.day-1),df=(a,b,u,f)=>(a-b>=0?'+':'')+(f?(a-b).toFixed(2):a-b)+(u?' '+u:'');
 const b0=`<h3>Feed Conversion Ratio (FCR)</h3><div class="fcr"><small>TOTAL FCR</small><strong>1.62</strong><div><b>FCR = Feed Consumption ÷ Body Weight</b>e.g. 3,200 kg ÷ 2,000 kg = 1.60</div></div><div class="tr">FCR Track (Target &lt; 1.65)</div><div class="bar"><i style="width:40.5%">1.62</i></div><div class="sc"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></div>`;
@@ -256,10 +256,10 @@ const wig=(b,d,fin,a)=>Math.sin(d*.7+(parseInt(b.id.slice(3))%10))*a*fin*(1-d/45
 const feedS=b=>DAYS.map(d=>[d,Math.round(10800*(12+d*2.9)/1000*parseFloat(b.fcr)/1.58)]);
 const fcrS=b=>{const f=parseFloat(b.fcr);return DAYS.map(d=>[d,f*(.6+.4*Math.pow(d/45,1.3))+wig(b,d,f,.012)])};
 const mortS=b=>{const f=parseFloat(b.mp);return DAYS.map(d=>[d,f*Math.pow(d/45,.75)+wig(b,d,f,.06)])};
-function trendCmp(b){const p=BT[BT.indexOf(b)+1],S2=[{n:'This batch',c:'#189484',p:feedS(b)}];if(p)S2.push({n:'Previous batch',c:'#4f6bd8',p:feedS(p)});return bbcChart(S2,{dec:0})}
+function trendCmp(b){const p=BT[BT.indexOf(b)+1],S2=[{n:'This batch',c:'#ff5a5f',p:feedS(b)}];if(p)S2.push({n:'Previous batch',c:'#4f6bd8',p:feedS(p)});return bbcChart(S2,{dec:0})}
 function cmpBody(b){const p=BT[BT.indexOf(b)+1];if(!p)return '';
 const blk=(lab,k,u,fn)=>{const tv=parseFloat(b[k]),pv=parseFloat(p[k]),d=tv-pv,good=d<=0,t=Math.abs(d)<.005?'Same':(d>0?'+':'\u2212')+Math.abs(d).toFixed(2)+u+(good?' \u25bc better':' \u25b2 higher');
-return `<div class="cp"><div class="cph"><b>${lab}</b><span class="cpd ${good?'ok':'bad'}">${t} vs ${p.id}</span></div>${bbcChart([{n:'This batch',c:'#189484',p:fn(b)},{n:'Previous batch',c:'#4f6bd8',p:fn(p)}],{dec:2,u:u})}</div>`};
+return `<div class="cp"><div class="cph"><b>${lab}</b><span class="cpd ${good?'ok':'bad'}">${t} vs ${p.id}</span></div>${bbcChart([{n:'This batch',c:'#ff5a5f',p:fn(b)},{n:'Previous batch',c:'#4f6bd8',p:fn(p)}],{dec:2,u:u})}</div>`};
 return `<h3>Previous Batch vs This Batch</h3>${blk('FCR','fcr','',fcrS)}${blk('Mortality %','mp',' %',mortS)}`}
 function cmpCard(b){const h=cmpBody(b);return h?`<div class="ec"><div class="ecb">${h}</div></div>`:''}
 function pieBlock(title,segs){const v=segs.filter(x=>x[0]>0),T=v.reduce((s,x)=>s+x[0],0);if(!v.length)return '';
