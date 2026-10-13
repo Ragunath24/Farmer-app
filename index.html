@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PoultryCare Farmer</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#ff5a5f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PoultryCare">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--p:#ff5a5f;--pd:#e8334a;--tx:#1f2430;--mu:#6b7280;--bg:#f6f7f9;--cd:#fff;--bd:#e8eaee;--sf:#f5f7f8;--rd:#b91c1c;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#f6f7f9}}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx);font-size:14px}
+body{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.mode-web .mob,.mode-mobile .web{display:none!important}
+/* WEB */
+.web{min-height:100%;display:flex;flex-direction:column}
+.wh{height:57px;background:#fff;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:5}
+.wh b{font-size:18px;font-weight:700}
+.wr{display:flex;align-items:center;gap:18px}
+.ib{border:1.5px solid var(--p);color:var(--p);border-radius:8px;padding:8px 14px;font-weight:600;display:flex;gap:8px;align-items:center}
+.ib:hover{background:#fff1f1}
+.wr .sep{width:1px;height:22px;background:var(--bd)}
+.lk{font-weight:500}.lk.r{color:var(--p);font-weight:600}
+.wb{display:flex;gap:24px;padding:23px;flex:1;align-items:flex-start}
+aside{width:240px;flex:none}
+.card{background:var(--cd);border-radius:12px;box-shadow:0 1px 4px rgba(20,24,40,.07)}
+.prof{padding:20px;display:flex;flex-wrap:wrap;gap:0 12px;margin-bottom:16px}
+.av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#ff6b6b,#f04a4a);color:#fff;display:grid;place-items:center;font-weight:600}
+.prof .n{font-weight:600;font-size:15px}.prof .e{font-size:12px;color:var(--mu)}
+.badge{display:inline-block;background:#eceef1;font-size:10px;font-weight:600;letter-spacing:.5px;padding:3px 9px;border-radius:10px;margin-top:6px}
+.so{color:var(--p);font-size:13px;margin-top:10px;width:100%}
+.nav{padding:0;overflow:hidden}
+.nav button{display:block;width:100%;text-align:left;padding:14px 0 14px 50px;font-weight:600;font-size:15px;color:#2c3340;border-left:3px solid transparent}
+.nav button.on{color:var(--p);background:#f5f6f8;border-left-color:var(--p)}
+.nav button:hover{background:#f5f6f8}
+.wm{flex:1;min-width:0}
+.hero{padding:62px 30px;margin-bottom:26px}.hero h2{font-size:22px;font-weight:600}.hero p{color:#444;margin-top:6px;font-size:15px}
+.sec{font-size:15px;font-weight:700;color:#7b8494;margin-bottom:10px;letter-spacing:.3px}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.kc{padding:20px;border-top:3px solid #ff6a70;text-align:left;cursor:pointer;transition:transform .15s}
+.kc:hover{transform:translateY(-2px)}.kc.o{border-top-color:#e11d3f}
+.kc small{display:block;font-size:12px;color:var(--mu);font-weight:600;letter-spacing:.3px;text-transform:uppercase}
+.kc strong{display:block;font-size:24px;margin-top:10px;font-weight:700;color:#000}.kc em{font-style:normal;font-size:12px;color:var(--mu)}
+.need{padding:26px 30px}.need h3{font-size:17px;margin-bottom:10px}.need p{font-size:15px;color:#444}.need a{color:#0b6cff}
+.col{max-width:620px}
+.wide{max-width:780px}
+/* shared content */
+.bh{text-align:center;padding:14px 16px 0}
+.bh .t{color:var(--mu);font-weight:500;font-size:13px}
+.dn{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.dn button{width:40px;height:40px;border-radius:50%;background:#eceef1;font-weight:700;font-size:16px}
+.dn h2{font-family:'Archivo Black',Inter,sans-serif;font-weight:800;font-size:20px;letter-spacing:.2px}.dn small{color:var(--mu);font-weight:500}
+.st{display:flex;margin-top:14px;padding:12px 0;border-bottom:1px solid var(--bd)}
+.st div{flex:1;text-align:center;border-left:1px solid var(--bd);font-size:12px;color:#444;font-weight:500}
+.st div:first-child{border:0;text-align:left;padding-left:16px}.st div:last-child{text-align:right;padding-right:16px}
+.st b{display:block;font-size:16px;font-weight:700;color:#000;margin:2px 0}.st i{font-style:normal;font-size:11px;color:var(--mu)}
+.tabs{display:flex;border-bottom:1px solid var(--bd);background:#fff}
+.tabs button{flex:1;padding:14px 0;font-weight:600;color:#4b5563;border-bottom:2px solid transparent}
+.tabs button.on{color:var(--p);border-bottom-color:var(--p)}
+.fg{padding:16px;border-bottom:1px solid var(--bd);background:#fff}
+.fg small{display:block;font-size:11px;font-weight:700;letter-spacing:.8px;color:#6b7280;text-transform:uppercase}
+.fg h4{font-size:14px;font-weight:700;margin:4px 0 10px}.fg small{margin-bottom:10px}
+
+@keyframes inr{from{transform:translateX(48px);opacity:.2}to{transform:none;opacity:1}}@keyframes inl{from{transform:translateX(-48px);opacity:.2}to{transform:none;opacity:1}}.inr{animation:inr .28s ease}.inl{animation:inl .28s ease}
+.kp.m{grid-template-columns:1fr 1fr;gap:10px}.kp.m .kc{padding:14px}.kp.m .kc strong{font-size:17px;margin-top:8px}
+.paper{background:#fff;border:1px solid #ddd;box-shadow:0 2px 10px rgba(0,0,0,.12);padding:16px;font-size:12px;line-height:1.5;overflow-x:auto}.paper .card{box-shadow:none;padding:0}
+@media print{body *{visibility:hidden}.paper,.paper *{visibility:visible}.paper{position:absolute;left:0;top:0;width:100%;border:0;box-shadow:none}}
+.fi{display:flex;align-items:center;border:1px solid var(--bd);border-radius:10px;padding:0 14px;height:56px;background:#fff}
+.fi input{flex:1;min-width:0;border:0;outline:0;font:700 20px Inter,sans-serif;color:#000;background:none}
+.fi input::placeholder{color:#9ca3af}.fi span{font-weight:700;color:#6b7280}
+.fi:focus-within{border-color:var(--p)}
+.sv{padding:16px;background:var(--bg)}
+.sv button{width:100%;height:46px;border-radius:8px;background:var(--p);color:#fff;font-weight:800;letter-spacing:1px;box-shadow:0 3px 8px rgba(255,90,95,.35)}
+.sv button:active{transform:scale(.98)}
+.ec{margin:14px;border-radius:12px;background:#fff;box-shadow:0 1px 6px rgba(20,24,40,.1);overflow:hidden}
+.ech{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--bd);cursor:pointer}
+.ech svg{color:var(--p);width:22px;height:22px}.ech b{font-size:16px}.ech small{display:block;color:var(--mu);font-weight:500}.ech .cv{margin-left:auto;color:#555}
+.ecb{padding:18px 14px}
+.ecb h3{text-align:center;color:#374151;font-size:15px;margin-bottom:14px}
+.fcr{background:linear-gradient(#fff,#fff0f0);border:1px solid #ffd4d4;border-radius:14px;padding:16px;text-align:center}
+.fcr small{color:var(--p);font-weight:700;letter-spacing:1px;font-size:11px}.fcr strong{display:block;font-size:44px;color:var(--p);font-weight:800;margin:4px 0 10px}
+.fcr div{background:#fff;border:1px dashed #e5c4c4;border-radius:8px;padding:10px;font-size:12px;color:#444}.fcr div b{display:block;font-size:13px;color:#000}
+.tr{margin-top:18px;font-weight:600;font-size:12.5px;color:#374151}
+.bar{height:20px;border:1px solid var(--bd);background:#f7f8fa;margin:6px 0 4px;border-radius:2px}
+.bar i{display:block;height:100%;background:var(--p);color:#fff;font:700 11px/20px Inter;text-align:right;padding-right:10px;font-style:normal}
+.sc{display:flex;justify-content:space-between;font-size:11px;color:#555}
+.vb{display:block;width:100%;height:44px;border-radius:8px;background:var(--p);color:#fff;font-weight:800;letter-spacing:1px;margin:22px 0 12px;box-shadow:0 3px 8px rgba(255,90,95,.35)}
+.dots{display:flex;gap:6px;justify-content:center}.dots button{width:8px;height:8px;border-radius:50%;background:#cfd3da}.dots .on{background:var(--p)}
+.ch{border:1px solid var(--bd);border-radius:4px;margin-top:6px;overflow:hidden}
+.tt{background:#f1f2f4;border-radius:8px;padding:12px;margin-top:14px;font-size:12px;display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:10px 4px;text-align:right;align-items:center}
+.tt .h{color:#6b7280;font-weight:600}.tt .l{text-align:left;font-weight:700;display:flex;gap:6px;align-items:center}.tt b{font-weight:700}
+/* pages */
+.pc{padding:14px;display:flex;flex-direction:column;gap:12px}
+.wide .pc,.col .pc{padding:0}
+.hd{padding:16px}.hd .row{display:flex;justify-content:space-between;align-items:baseline}.hd h3{font-size:16px}.hd .row span{font-size:12px;color:var(--mu)}.hd p{font-size:12px;color:var(--mu);margin-top:10px;line-height:1.5}
+.gc{padding:16px;cursor:pointer}.gc .a{display:flex;justify-content:space-between;align-items:center}.gc .a b{font-size:14px}
+.pill{background:#fff0d6;color:#d97706;font-size:11px;font-weight:600;padding:4px 10px;border-radius:12px}
+.gc .m{display:flex;gap:6px;align-items:center;color:#5b6475;font-size:12px;margin:8px 0 10px;padding-bottom:10px;border-bottom:1px dashed #d7dbe2}
+.gc .m svg{width:14px;height:14px;color:#4f6bd8}
+.gc .v{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:#6b7280;letter-spacing:.3px}.gc .v+.v{margin-top:2px}
+.gc .v2{display:flex;justify-content:space-between;font-size:18px;font-weight:800}.gc .v2 .d{color:var(--rd)}
+.gcs{display:grid;gap:12px}
+.rec{padding:16px}
+.rec .t{text-align:center;margin-bottom:12px}.rec .t h3{font-size:16px;letter-spacing:.3px}.rec .t p{font-size:11px;line-height:1.5;margin:2px 0}.rec .t b{font-size:12px;display:block;border:1px solid var(--bd);border-left:0;border-right:0;padding:2px;margin-top:4px}
+.kv{display:grid;grid-template-columns:1fr 1fr;font-size:12.5px;gap:12px 8px;margin:16px 4px}
+.kv span:nth-child(odd){color:#374151}
+.rec h4{font-size:15px;text-decoration:underline;letter-spacing:.3px;margin:20px 4px 8px}
+.pt{width:100%;border-collapse:collapse;font-size:12.5px}.pt td{border:1px solid var(--bd);padding:8px 10px;width:50%}.pt tr.f{background:#ffe6e6;color:#e5484d}.rd{color:var(--p)}.bl{color:#1d4ed8}
+.pf{padding:16px}.pf .t{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.pf .t b{font-size:15px}
+.tag{background:var(--p);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px}
+.in{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:0 14px}
+.in div{display:flex;justify-content:space-between;padding:11px 0;font-size:12.5px;border-bottom:1px solid var(--bd)}.in div:last-child{border:0}
+.in span{color:#6b7280;font-weight:500}.in b{font-weight:700}
+.so2{width:100%;margin-top:10px;background:#ffe1e1;border:1px solid #f5bcbc;color:#8b1a1a;font-weight:700;border-radius:8px;height:44px}
+.sm{font-size:11px;color:#6b7280;margin-bottom:12px}
+.fl{display:flex;gap:10px;align-items:flex-end;margin-top:10px}.fl label{font-size:11px;font-weight:600;color:#555;flex:1}
+.fl input{width:100%;margin-top:4px;border:1px solid #cdd2da;border-radius:6px;padding:8px;font:12px Inter}
+.fl button{background:var(--p);color:#fff;font-weight:700;border-radius:8px;height:36px;padding:0 18px}
+.bs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.bs div{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:12px}
+.bs small{font-size:10px;font-weight:700;color:#6b7280;letter-spacing:.5px}.bs b{display:block;font-size:16px;margin-top:6px}
+.dl{color:var(--p);font-size:12px;font-weight:700}
+.tx{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--bd);font-size:12px}.tx:last-child{border:0}.tx small{display:block;color:#6b7280;margin-top:4px}.tx .r{text-align:right}.tx .r b{display:block;font-size:14px}
+.neg{color:var(--rd)}.pos{color:var(--p)}
+/* MOBILE */
+.mob{position:relative;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
+.mode-mobile .mob{height:100vh;height:100dvh}
+.mode-mobile.framed .mob{width:390px;height:min(844px,calc(100vh - 48px));margin:24px auto;border-radius:30px;box-shadow:0 10px 40px rgba(0,0,0,.25),0 0 0 8px #1b1f27}
+.mode-mobile.framed body,.framed{background:#d9dce2}
+.mh{height:56px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex:none}
+.mh h1{font-size:14px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}.mh.c h1{position:absolute;left:0;right:0;text-align:center;pointer-events:none}
+.mh button{position:relative;z-index:1;padding:4px;color:#222}
+.msc{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none}.msc::-webkit-scrollbar{display:none}
+.wel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:90px}
+.wel .tp{position:absolute;top:2px;left:4px;font-size:15px}
+.wel .ic{width:100px;height:100px;border-radius:50%;background:#eceef1;display:grid;place-items:center;margin-bottom:22px}.wel .ic svg{width:34px;height:34px}
+.wel small{font-weight:700;letter-spacing:.5px;font-size:14px}.wel h1{font-size:30px;font-weight:800;margin:10px 0 36px;padding:0 10px}
+.wel h3{font-size:19px}.wel h4{font-size:16px;margin:8px 0}.wel p{font-weight:600}
+.wel .co{color:#6b2c9e;margin:36px 0 12px;font-size:16px;display:flex;gap:8px;align-items:center}
+.wel .ib{padding:12px 24px;font-size:17px;font-weight:500}
+.ov{position:absolute;inset:0;background:rgba(15,20,30,.35);z-index:20;opacity:0;pointer-events:none;transition:.25s}
+.ov.on{opacity:1;pointer-events:auto}
+.dr{position:absolute;top:0;bottom:0;left:0;width:250px;background:#fff;z-index:21;transform:translateX(-100%);transition:.25s}
+.dr.on{transform:none}
+.dr .h{padding:22px 18px 12px;border-bottom:1px solid #eee}.dr .h b{font-size:16px}.dr .h small{display:block;color:#64748b;font-size:11.5px;margin-top:4px}
+.dr nav{padding:10px 9px}.dr nav button{display:flex;gap:14px;align-items:center;width:100%;text-align:left;padding:12px 10px;border-radius:8px;font-weight:600;font-size:13px;margin-bottom:2px}
+.dr nav button.on{background:#fff0f0;color:var(--p)}
+/* modal & toast */
+.md{position:fixed;inset:0;background:rgba(40,46,58,.55);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}.md.on{display:flex}
+.mb{background:#fff;border-radius:18px;width:100%;max-width:530px;padding:24px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:96vh;overflow:auto}
+.mb .x{position:absolute;right:20px;top:20px;color:#444}
+.mt{display:flex;gap:16px;align-items:center;padding-right:30px}.mt .i{width:62px;height:62px;border-radius:14px;background:#ffdfe2;color:var(--pd);display:grid;place-items:center;flex:none}.mt .i svg{width:30px;height:30px}
+.mt b{font-size:17px}.mt p{color:#5b6475;font-size:14px;margin-top:4px;line-height:1.4}
+.go{width:100%;height:52px;margin:20px 0 14px;border-radius:10px;background:linear-gradient(#f7475c,#ea3350);color:#fff;font-weight:700;font-size:16px;display:flex;gap:10px;align-items:center;justify-content:center}
+.pl{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.pl button{padding:12px 4px;border:1px solid #d9dde4;font-weight:600;color:#4b5563;display:flex;gap:8px;align-items:center;justify-content:center;font-size:14px}
+.pl button:first-child{border-radius:10px 0 0 10px}.pl button:last-child{border-radius:0 10px 10px 0}.pl .on{border-color:#f5a3ad;color:#d92a45;background:#fff1f2}
+.stp{border:1px solid var(--bd);border-radius:12px;background:#fafbfc;padding:12px 16px;margin-top:14px}
+.stp div{display:flex;gap:14px;align-items:flex-start;padding:9px 0;font-size:14px;line-height:1.45}.stp i{width:24px;height:24px;border:1.5px solid #f0707f;color:#d92a45;border-radius:50%;display:grid;place-items:center;font:600 12px Inter;flex:none;margin-top:1px}
+.ft{display:flex;justify-content:space-between;border-top:1px solid var(--bd);margin-top:16px;padding-top:16px;color:#4b5563;font-weight:600;font-size:13px}.ft span{display:flex;gap:8px;align-items:center}.ft svg{color:var(--pd)}
+.tst{position:fixed;left:50%;bottom:70px;transform:translate(-50%,20px);background:#1f2430;color:#fff;padding:11px 18px;border-radius:24px;font-size:13px;font-weight:500;opacity:0;transition:.25s;z-index:99;pointer-events:none;max-width:90vw;text-align:center}.tst.on{opacity:1;transform:translate(-50%,0)}
+.vs{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:#1f2430;border-radius:22px;padding:4px;display:flex;z-index:60;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.vs button{color:#cbd0da;padding:7px 18px;border-radius:18px;font-weight:600;font-size:12px}.vs .on{background:#fff;color:#1f2430}
+@media(max-width:1000px){.kp{grid-template-columns:repeat(2,1fr)}}
+.pl2 .ib{border:0;padding:0;color:var(--p);font-weight:500;font-size:15px}.pl2 .ib:hover{background:none}.pl2 .sep{display:none}.pl2 .wr{gap:12px}.pl2 .lk{font-size:15px}
+.wph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;gap:12px}.wph h1{font-size:24px;font-weight:600;line-height:1.2}.wph .sub{color:#555;font-size:14px;margin-top:4px}
+.wc{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(20,24,40,.07);padding:24px;margin-bottom:24px}.wc h3{font-size:18px;font-weight:600;margin-bottom:20px}
+.wl{display:block;font-size:14px;margin-bottom:6px;color:#333}.wi{height:38px;border:1px solid #ced4da;border-radius:4px;padding:0 10px;font:14px Inter,sans-serif;background:#fff;color:#212529;width:100%}.wi:focus{outline:0;border-color:var(--p)}.wf{max-width:48%;margin-bottom:18px}
+.wbtn{height:38px;padding:0 16px;border-radius:5px;border:1px solid #ced4da;background:#f8f9fa;font-size:14px}.wbtn.p{background:#ff5a5f;border-color:#ff5a5f;color:#fff}.wbtn.b{background:#0d6efd;border-color:#0d6efd;color:#fff}.wbtn.o{background:#fff;border-color:#6c757d;color:#6c757d;height:32px}
+.wbw{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px}.wbw h3{margin:0!important}.wbw span{font-size:12.5px;color:#444}
+.wt2{width:100%;border-collapse:collapse;font-size:14px}.wt2 th,.wt2 td{border:1px solid #dee2e6;padding:8px}.wt2 th{font-weight:600;text-align:left}.wlk{color:#0d6efd;text-decoration:underline;font-size:14px}
+.wrp{border-top:3px solid #ff5a5f}.wrt th{background:#dfe5ee;font-size:13px;vertical-align:bottom;line-height:1.3}.wrt tfoot td{background:#dfe5ee;font-weight:700}.wrt td{font-size:13px}.wnote{background:#f8f9fa;border:1px solid #e5e7eb;border-radius:6px;padding:16px;font-size:13px;line-height:1.7;margin-top:16px}
+.wtabs{display:flex;border-bottom:1px solid #dee2e6;margin:24px 0 20px}.wtabs button{padding:10px 16px;font-size:16px;color:#4b5563;margin-bottom:-1px;border-bottom:2px solid transparent}.wtabs .on{color:var(--p);border-bottom-color:var(--p)}
+.wgt{width:100%;border-collapse:collapse}.wgt th{font-size:12px;letter-spacing:.8px;color:#6b7280;font-weight:600;text-align:left;padding:14px 8px;border-bottom:1px solid #dee2e6;text-transform:uppercase}.wgt td{padding:12px 8px;border-bottom:1px solid #dee2e6;font-size:15px}.wvw{border:1px solid #0d6efd;color:#0d6efd;border-radius:4px;padding:5px 12px;font-size:14px;float:right}
+.wsum,.wdl{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 0}.wdl{grid-template-columns:repeat(3,1fr)}.wsum small,.wdl small{display:block;font-size:12px;letter-spacing:.5px;color:#6b7280;text-transform:uppercase;margin-bottom:8px}.wsum b,.wdl b{font-weight:400;font-size:16px}.wdl b{display:block}
+.wrow{display:flex;gap:8px;align-items:flex-end}.wrow>div{flex:none}
+@keyframes dfade{from{opacity:0}to{opacity:1}}@keyframes dup{from{transform:translateY(100%)}to{transform:none}}
+.dov{position:absolute;inset:0;z-index:30;background:rgba(15,20,30,.5);animation:dfade .2s}.dsh{background:#fff;height:100%;padding:18px 16px;animation:dup .3s ease;overflow-y:auto;scrollbar-width:none}.dsh::-webkit-scrollbar{display:none}
+.dsh-h{display:flex;justify-content:space-between;align-items:center}.dsh-h b{font-size:18px}.dsh-h button{width:36px;height:36px;border-radius:50%;background:#eceef1;display:grid;place-items:center}
+.dnav{display:flex;gap:10px;margin:16px 0}.dnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 6px;background:#eceef1;border-radius:12px;font-weight:700;font-size:13px}.dnav button:disabled{opacity:.4}.dnav small{color:var(--mu);font-weight:500;font-size:11px}
+.dl button{display:flex;justify-content:space-between;align-items:center;width:100%;padding:13px 16px;border:1px solid var(--bd);border-radius:12px;margin-bottom:8px;text-align:left}.dl .on{border-color:var(--p);background:#fff0f0}.dl small{display:block;color:var(--mu);font-size:12px;margin-top:2px}.dl span{font-size:12px;font-weight:600;color:var(--mu)}.dl .on span{color:var(--p)}
+.dsh{display:flex;flex-direction:column;overflow:hidden;padding:0}.dtop{padding:18px 16px 8px;flex:none}#dlst{flex:1;min-height:0;overflow-y:auto;padding:6px 16px 24px;scrollbar-width:thin;scrollbar-color:#cfd3da transparent}#dlst::-webkit-scrollbar{width:4px}#dlst::-webkit-scrollbar-thumb{background:#cfd3da;border-radius:4px}
+.dfl{display:flex;gap:8px;align-items:flex-end;margin-top:12px}.dfl label{flex:1;font-size:11px;font-weight:600;color:#555}.dfl input{width:100%;margin-top:3px;border:1px solid #cdd2da;border-radius:6px;padding:6px 8px;font:12px Inter,sans-serif;height:32px}.dfl button{height:32px;padding:0 10px;color:var(--p);font-weight:600;font-size:12px}
+.gk{position:relative;overflow:hidden;padding:16px 16px 16px 20px;border-radius:16px}.gk::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--p)}.gkv .big{font-size:16px;font-weight:700;color:#1f2430}.gk .a{display:flex;justify-content:space-between;align-items:center;gap:8px}.gk .a b{font-size:16px;font-weight:700}
+.gch{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 14px}.gch span{display:inline-flex;align-items:center;gap:6px;background:var(--sf);border:1px solid var(--bd);color:#5b6475;font-size:12.5px;padding:5px 10px;border-radius:8px}.gch svg{width:14px;height:14px;color:#4f6bd8}
+.gkv{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}.gkv small{display:block;font-size:10.5px;font-weight:700;color:#6b7280;letter-spacing:.3px;margin-bottom:4px}.gkv b{font-size:16px;font-weight:700;color:#1f2430;white-space:nowrap}.gkv .r{text-align:right}.gkv .d{font-size:16px;font-weight:700;color:var(--rd)}
+html,body{overscroll-behavior:none}
+@keyframes fup{from{transform:translateY(100%)}to{transform:none}}@keyframes fdn{from{transform:translateY(-100%)}to{transform:none}}
+@keyframes frt{from{transform:translateX(100%)}to{transform:none}}@keyframes flt{from{transform:translateX(-100%)}to{transform:none}}
+.frt{animation:frt .32s cubic-bezier(.22,.8,.3,1)}.flt{animation:flt .32s cubic-bezier(.22,.8,.3,1)}.frt,.flt{position:relative;z-index:2;background:var(--bg);box-shadow:0 0 28px rgba(0,0,0,.28)}
+@media (display-mode: standalone){[data-a=inst],#vs{display:none!important}}
+.mg th{padding:10px 4px;font-size:10.5px}.mg td{padding:11px 4px;font-size:13px}.paper .pt td{width:auto}
+.eye{width:34px;height:34px;border-radius:50%;border:1px solid #d9dce2;background:#fff;color:#1f2430;display:grid;place-items:center;flex:none}.eye svg{width:17px;height:17px}.eye:active{background:#f1f3f6}
+input,select,textarea{background-color:#fff;color:#1f2430;color-scheme:light}input::placeholder{color:#9ca3af;opacity:1}input[type=date]::-webkit-calendar-picker-indicator{filter:none;opacity:.8}
+.bn{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--bd);background:#fff}.bi{width:38px;height:38px;border-radius:10px;background:#fff0f0;color:var(--p);display:grid;place-items:center;flex:none}.bt{flex:1;min-width:0}.bt b{display:flex;align-items:center;gap:8px;font-size:15px}.ac{background:#dcfce7;color:#15803d;font-size:10px;font-weight:700;letter-spacing:.5px;padding:2px 8px;border-radius:10px}.bt small{display:block;color:var(--mu);font-size:12px;margin-top:2px;line-height:1.35}.bc{width:42px;height:42px;border-radius:12px;background:#fff0f0;color:var(--p);display:grid;place-items:center;border:1px solid #ffd4d6;flex:none}.bc svg{width:20px;height:20px}.bc:active{background:#ffe0e1}
+#dlst{scrollbar-width:auto;scrollbar-color:#b8bec9 transparent;cursor:grab}#dlst::-webkit-scrollbar{width:6px}#dlst::-webkit-scrollbar-thumb{background:#b8bec9}
+.msc,#dlst{-webkit-user-select:none;user-select:none}.msc input,#dlst input{-webkit-user-select:text;user-select:text}
+.rp td{padding:6px 3px!important;word-break:break-word}
+.act{display:flex;gap:8px;margin-top:12px}.act button{flex:1;height:38px;border-radius:8px;font-weight:700;font-size:12px;letter-spacing:.3px}.act .a1{background:var(--p);color:#fff}.act .a2{border:1.5px solid var(--p);color:var(--p);background:#fff}
+</style></head><body>
+<div id="root" class="mode-web">
+<div class="web">
+ <div class="wh"><b>PoultryCare ERP</b><div class="wr"><button class="ib" id="wib" data-a="inst"></button><span class="sep"></span><button class="lk" data-a="pg" data-p="dash">Dashboard</button><button class="lk r" data-a="out">Sign out</button></div></div>
+ <div class="wb"><aside><div class="card prof"><div class="av">K</div><div><div class="n">Kandasamy</div><div class="e">kandasamy@poultry.care</div><span class="badge">FARMER</span></div><button class="so" data-a="out">Sign out</button></div><div class="card nav" id="wn"></div></aside><div class="wm" id="wm"></div></div>
+</div>
+<div class="mob" id="mob"><div id="mc" style="display:flex;flex-direction:column;flex:1;min-height:0"></div><div class="ov" id="ov" data-a="dr"></div>
+ <div class="dr" id="dr"><div class="h"><b>Kandasamy</b><small>Kandasamy • Batch PLC000481</small></div><nav id="mn"></nav></div></div>
+</div>
+<div class="vs" id="vs"><button data-a="vw" data-v="web" class="on">Web view</button><button data-a="vw" data-v="mobile">Mobile view</button></div>
+<div class="md" id="md" data-a="mx"><div class="mb" id="mbx"></div></div>
+<div class="tst" id="ts"></div>
+<script>
+const $=s=>document.querySelector(s);
+const IC={back:'<path d="M15 6l-6 6 6 6"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',rs:'<circle cx="12" cy="12" r="9"/><path d="M8 8h8M8 11.5h8M10 8c4.5 0 4.5 5 0 5l4.5 3.5"/>',home:'<path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',bar:'<path d="M5 21V10M12 21V3M19 21v-7"/>',layers:'<path d="M12 2l10 5-10 5L2 7z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>',card:'<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M20 17v4H6.5a2.5 2.5 0 0 1 0-4"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',menu:'<path d="M3 6h18M3 12h18M3 18h18"/>',phone:'<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/>',bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M10 21a2 2 0 0 0 4 0"/>',dl:'<path d="M12 3v12m-5-5l5 5 5-5M4 21h16"/>',cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',x:'<path d="M18 6L6 18M6 6l12 12"/>',up:'<path d="M6 15l6-6 6 6"/>',dn:'<path d="M6 9l6 6 6-6"/>',chev:'<path d="M9 6l6 6-6 6"/>',desk:'<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>'};
+const ic=n=>`<svg viewBox="0 0 24 24">${IC[n]}</svg>`;
+const M=n=>'₹ '+n.toLocaleString('en-US',{minimumFractionDigits:2});
+const PG=[['dash','Dashboard','Dashboard','home'],['entry','Dayentry','Day Entry','edit'],['perf','Batches','Batches','layers'],['gc','Growing Charge','Growing Charge','layers'],['pay','Payments','Payments','card'],['stmt','Statement','Statement','book'],['det','My Details','My Details','user']];
+const GC=[['GC000368','2026-01-07','PLC000456',52225],['GC000317','2025-01-03','PLC000381',102908],['GC000290','2024-10-07','PLC000335',107217.5],['GC000267','2024-08-12','PLC000306',125840],['GC000250','2024-06-04','PLC000291',117325],['GC000231','2024-03-02','PLC000262',118420],['GC000214','2023-12-19','PLC000240',109365.47],['GC000198','2023-10-06','PLC000218',98730],['GC000176','2023-07-25','PLC000195',104558],['GC000159','2023-05-11','PLC000171',105500]];
+const S={pg:'dash',mw:'wel',day:150,tab:0,sl:0,col:0,it:'Android',saved:{},form:{m:'',f:'',w:''},from:'2026-01-01',to:'2026-10-07'};
+const dt=d=>{const x=new Date(2026,4,11+d-1);return x.getDate().toString().padStart(2,'0')+' '+x.toLocaleString('en',{month:'short'})};
+const dd=d=>{if(S.saved[d])return S.saved[d];if(d>=148)return{m:0,f:0,w:0};return{m:d%7==0?3:d%3==0?1:0,f:Math.round(10800*(15+d*1.1)/1000),w:+(.04+d*.0155).toFixed(2)}};
+function batch(){let mt=6,cf=0;for(const d in S.saved)if(+d<=S.day){mt+=S.saved[d].m;cf+=S.saved[d].f}return `<div class="bn"><div class="bi">${ic('layers')}</div><div class="bt"><b>Batch PLC000481 <span class="ac">ACTIVE</span></b><small>Kandasamy • Placed 11 May 2026 (10,800 chicks)</small></div><button class="bc" data-a="dpo" aria-label="Day jump">${ic('cal')}</button></div><div class="bh" style="padding-top:10px"><div class="dn" style="justify-content:center"><div style="text-align:center"><h2>DAY ${S.day}</h2><small>${dt(S.day)}</small></div></div></div>
+<div class="st"><div>Placed<b>10,800</b></div><div>Cumulative Mortality<b>${mt}</b><i>Birds</i></div><div>Cumulative Feed<b>${cf}</b><i>kg</i></div><div>Birds Now<b>${(10800-mt).toLocaleString('en-US')}</b></div></div>
+<div class="tabs"><button class="${S.tab?'':'on'}" data-a="tab" data-t="0">Daily Entry</button><button class="${S.tab?'on':''}" data-a="tab" data-t="1">Efficiency &amp; Graphs</button></div>`}
+function chart(){const pts=[];for(let d=148;d<=S.day;d++)pts.push([d,dd(d).f]);const mx=Math.max(13.4,...pts.map(p=>p[1])),w=300,h=70;
+const xs=i=>pts.length>1?30+i*(w-50)/(pts.length-1):34,ys=v=>h-6-(v/mx)*(h-20);
+return `<div class="ch"><svg viewBox="0 0 ${w} 100" style="width:100%;height:auto;stroke-width:1"><g stroke="#e3e5ea" stroke-dasharray="2 3"><path d="M30 ${ys(mx)}H${w}M30 ${ys(mx/2)}H${w}"/></g><path d="M30 ${ys(0)}H${w}" stroke="#ccc"/><g fill="#555" stroke="none" font-size="8" font-family="Inter"><text x="4" y="${ys(mx)+3}">${+mx.toFixed(1)}</text><text x="4" y="${ys(mx/2)+3}">${+(mx/2).toFixed(1)}</text><text x="18" y="${ys(0)+3}">0</text></g><polyline fill="none" stroke="#ff5a5f" points="${pts.map((p,i)=>xs(i)+','+ys(p[1])).join(' ')}"/>${pts.map((p,i)=>`<circle cx="${xs(i)}" cy="${ys(p[1])}" r="3" fill="#fff" stroke="#ff5a5f" stroke-width="1.5"/><text x="${xs(i)}" y="96" font-size="8" text-anchor="middle" fill="#333" stroke="none" font-weight="700">D${p[0]}</text>`).join('')}</svg></div>`}
+function eff(){const t=dd(S.day),y=dd(S.day-1),df=(a,b,u,f)=>(a-b>=0?'+':'')+(f?(a-b).toFixed(2):a-b)+(u?' '+u:'');
+const b0=`<h3>Feed Conversion Ratio (FCR)</h3><div class="fcr"><small>TOTAL FCR</small><strong>1.62</strong><div><b>FCR = Feed Consumption ÷ Body Weight</b>e.g. 3,200 kg ÷ 2,000 kg = 1.60</div></div><div class="tr">FCR Track (Target &lt; 1.65)</div><div class="bar"><i style="width:40.5%">1.62</i></div><div class="sc"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></div>`;
+const b1=`<h3>Daily Intake Trend</h3><div style="font-weight:700;font-size:12px;margin:0 2px">Over Period (Day 0 - Day ${S.day})</div>${chart()}<div class="tt"><span></span><span class="h">Yesterday</span><span class="h">Today</span><span class="h">Diff</span>
+<span class="l">🌾 Feed</span><b>${y.f} kg</b><b>${t.f} kg</b><b>${df(t.f,y.f,'kg')}</b><span class="l">⚖️ Weight</span><b>${y.w.toFixed(2)} kg</b><b>${t.w.toFixed(2)} kg</b><b>${df(t.w,y.w,'kg',1)}</b><span class="l">🐔 Mortality</span><b>${y.m}</b><b>${t.m}</b><b>${df(t.m,y.m)}</b></div>`;
+return `<div class="ec" id="sw"><div class="ech" data-a="col">${ic('home')}<div><b>Kandasamy</b><small>Day ${S.day}</small></div><span class="cv">${ic(S.col?'dn':'up')}</span></div>${S.col?'':`<div class="ecb">${S.sl?b1:b0}<button class="vb" data-a="vb">VIEW BATCH</button><div class="dots"><button class="${S.sl?'':'on'}" data-a="sl" data-s="0"></button><button class="${S.sl?'on':''}" data-a="sl" data-s="1"></button></div></div>`}</div>`}
+function entry(){const sv=S.saved[S.day],f={m:S.form.m!==''?S.form.m:(sv?sv.m:''),f:S.form.f!==''?S.form.f:(sv?sv.f:''),w:S.form.w!==''?S.form.w:(sv?sv.w:'')};return `<div class="fg"><small>Mortality</small><div class="fi"><input id="fm" inputmode="numeric" placeholder="0" value="${f.m}"><span>Birds</span></div></div>
+<div class="fg"><small>Feed</small><div class="fi"><input id="ff" inputmode="decimal" placeholder="0" value="${f.f}"><span>kg</span></div></div>
+<div class="fg"><small>Body Weight</small><div class="fi"><input id="fw" inputmode="decimal" placeholder="0.00" value="${f.w}"><span>kg</span></div></div><div class="sv"><button data-a="save">${sv?'UPDATE':'SAVE'}</button></div>`}
+function perf(){const r=[['Mean Age','0'],['C.F.I Per Bird','0'],['Avg. Wt','0'],['FCR / CFCR','0 / 0.5','f'],['Cum. Mortality','200'],['Mortality %','1.85 %'],['Pro. No. (Batch Seq)',''],['Prod. Cost','0'],['Day. Gain','0'],['R.F.T. Out %','0'],['E.F.T. Out %','0'],['First Week Mort %','0.36 %'],['Last Week Mort %','0.57 %'],['Culls %','0']];
+return `<div class="pc"><div class="card rec"><div class="t"><h3>POULTRYCARE ERP</h3><p>69/13,A-3, Jettikula Street, (Opp.Ulavarshanthai), SP Pudhur, Namakkal.</p><p>E-mail: www.poultry.care | Phone: 8189805678</p><b>COMMERCIAL BROILER RECORD</b></div>
+<div class="kv"><span>Date of Placement:</span><span>11/05/2026</span><span>Placement No:</span><span class="rd">PLC000481</span><span>Hatchery Placement:</span><span>Manikandan</span><span>Flock Name:</span><span></span><span>Square Feet (Capacity):</span><span>12,000</span><span>Branch:</span><span>Namakkal</span><span>Line:</span><span>Aniyapuram</span><span>Supervisor Name:</span><span>Manikandan S (EMP000001)</span><span>No. of Chicks Supplied:</span><span class="bl">10,800</span><span>A/c Close Date:</span><span>08/06/2026</span></div>
+<h4>PERFORMANCE</h4><table class="pt">${r.map(x=>`<tr class="${x[2]||''}"><td>${x[0]}</td><td>${x[1]}</td></tr>`).join('')}</table></div></div>`}
+function gc(){return `<div class="pc"><div class="card hd"><div class="row"><h3>Growing Charge Settlements</h3><span>10 Records</span></div><p>Growing charge earnings and settlement bills for Kandasamy.</p></div><div class="gcs">${GC.map(g=>`<div class="card gc" data-a="gcc" data-i="${g[0]}"><div class="a"><b>${g[0]}</b><span class="pill">Balance Due</span></div><div class="m">${ic('cal')}${g[1]} &nbsp;Batch: ${g[2]}</div><div class="v"><span>TOTAL AMOUNT</span><span>DUE BALANCE</span></div><div class="v2"><span>${M(g[3])}</span><span class="d">${M(g[3])}</span></div><div style="text-align:right;margin-top:10px;color:var(--p);font-weight:700;font-size:12px">VIEW PDF ›</div></div>`).join('')}</div></div>`}
+function pay(){return `<div class="pc"><div class="card hd"><div class="row"><h3>Payments</h3><span>0 Records</span></div><p>Payments received against your growing charge bills will appear here.</p></div><div class="card hd" style="text-align:center;color:#6b7280">— <br>No payments yet</div></div>`}
+function stmt(){const tx=[['2026-01-01','OPENING BALANCE',-52225,'Bal: ₹ 52,225.00 Dr'],['2026-01-07','GC000368',52225,'Bal: ₹ 0.00 Cr']].filter(t=>t[0]>=S.from&&t[0]<=S.to);const cr=tx.filter(t=>t[2]>0).reduce((a,t)=>a+t[2],0),cl=-52225+cr;
+return `<div class="pc"><div class="card hd"><h3>Statement of Accounts</h3><div class="fl"><label>From<input type="date" id="sf" value="${S.from}"></label><label>To<input type="date" id="st" value="${S.to}"></label><button data-a="flt">Filter</button></div></div>
+<div class="card hd"><div class="row"><h3>Balance Summary</h3><button class="dl" data-a="pdf">Download PDF ⬇</button></div><div class="bs"><div><small>OPENING</small><b>₹ -52,225.00</b></div><div><small>TOTAL DEBITS</small><b class="neg">₹ 0.00</b></div><div><small>TOTAL CREDITS</small><b class="pos">${M(cr)}</b></div><div><small>CLOSING BALANCE</small><b>${cl<0?M(-cl)+' Dr':'₹ 0.00 Cr'}</b></div></div></div>
+<div class="card hd"><h3>Transactions</h3><div style="margin-top:12px">${tx.length?tx.map(t=>t[1]=='GC000368'?`<div class="tx"><div><b style="font-size:13px">Growing charge:<br>8050.0000<br>Penalty: 1.0000</b><small>📅 ${t[0]} • ${t[1]}</small></div><div class="r"><b class="pos">+ ${M(t[2])}</b><small>${t[3]}</small></div></div>`:`<div class="tx"><div><small style="margin:0">📅 ${t[0]} • ${t[1]}</small></div><div class="r"><b class="neg">- ${M(-t[2])}</b><small>${t[3]}</small></div></div>`).join(''):'<div class="tx" style="color:#6b7280">No transactions in this period</div>'}</div></div></div>`}
+function det(){return `<div class="pc"><div class="card pf"><div class="t"><b>Farmer Profile</b><span class="tag">CBF Partner</span></div><div class="in"><div><span>Farmer Name</span><b>Kandasamy</b></div><div><span>Farmer Code</span><b>FR30</b></div><div><span>Phone / Mobile</span><b>9966887755</b></div><div><span>Portal Login</span><b>kandasamy@poultry.care</b></div><div><span>Address</span><b style="text-align:right;max-width:60%">1/122 North street, Saleem road, Namakkal-637001</b></div><div><span>GSTIN / Tax No</span><b>—</b></div><div><span>PAN</span><b>—</b></div></div><p style="margin-top:10px;text-align:right"><a href="#" class="wlk" data-a="dtoast">Request a change</a></p></div>
+<div class="card pf"><div class="t"><b>Farm &amp; House Setup</b></div><div class="in"><div><span>Farm Name</span><b>Kandasamy</b></div><div><span>House</span><b>Kandasamy</b></div><div><span>Current Batch</span><b style="color:var(--rd)">Batch PLC000481</b></div><div><span>Branch / Line</span><b>Namakkal / Aniyapuram</b></div></div></div>
+<div class="card pf"><div class="t"><b>Session Management</b></div><p class="sm">You are connected to PoultryCare ERP Partner Portal.</p><div class="pf" style="padding:0"><p class="sm" style="display:none"></p></div><button class="so2" style="margin:0 0 10px;background:#f8f9fa;border-color:#ced4da;color:#333" data-a="dtoast">Change Password</button><button class="so2" style="margin:0 0 10px;background:#0d6efd;border-color:#0d6efd;color:#fff" data-a="dtoast">Message Us</button><button class="so2" data-a="out">Sign Out of Farmer Portal</button></div></div>`}
+function dash(){return `<div class="card hero"><h2>Welcome back, Kandasamy</h2><p>You are signed in to PoultryCare ERP as Farmer.</p></div><div class="sec">AS FARMER</div><div class="kp"><button class="card kc" data-a="pg" data-p="gc"><small>Balance Payable</small><strong>₹ 0.00</strong></button><button class="card kc" data-a="pg" data-p="stmt"><small>Available Credits</small><strong>₹ 1042395.50</strong></button><button class="card kc o" data-a="pg" data-p="gc"><small>Overdue</small><strong>₹ 1042088.97</strong><em>10 items overdue</em></button><button class="card kc" data-a="pg" data-p="pay"><small>Last Payment Received</small><strong>—</strong><em>No payments yet</em></button></div><div class="card need"><h3>Need something else?</h3><p>Use the sidebar for your documents, statement of accounts, and account details. Or message us at <a href="#" data-a="lnk">www.poultry.care</a> if something looks wrong.</p></div>`}
+const fd=s=>s.split('-').reverse().join('/'),A2=n=>'₹ '+n.toFixed(2),av=r=>(+r.q&&+r.t)?(r.t/r.q).toFixed(3):'0';
+const W={date:'2026-10-12',m:'0',f:'0',rows:[{q:'',t:''}],recs:[],gtab:1,gf:'',gt:'',gq:'',sf:'2026-04-01',st:'2026-10-12',exp:0};
+const WG=[['2026-01-07','GC000368',52225,52225],['2025-01-03','GC000317',102908,102908],['2024-10-07','GC000290',107217.5,107217.5],['2024-08-12','GC000267',125840,125840],['2024-06-04','GC000250',117325,117325],['2024-03-16','GC000220',118885,118885],['2024-01-12','GC000181',111475,111475],['2023-05-26','GC000132',127725,127597.27],['2023-03-07','GC000098',111475,111363.52],['2023-01-23','GC000067',67320,67252.68]];
+function wentry(){const R=W.recs,sm=k=>R.reduce((a,x)=>a+x[k],0),tw=sm('t'),qq=sm('q');
+const rows=W.rows.map((r,i)=>`<tr><td><input class="wi" value="ALL" readonly></td><td><input class="wi wk" data-r="${i}" data-k="q" placeholder="Enter quantity" value="${r.q}"></td><td><input class="wi wk" data-r="${i}" data-k="t" placeholder="Enter total weight" value="${r.t}"></td><td><input class="wi" id="wa${i}" readonly value="${av(r)}"></td><td style="text-align:center">${i?`<a href="#" class="wlk" data-a="wrem" data-r="${i}">Remove</a>`:''}</td></tr>`).join('');
+const rc=R.map(x=>`<tr><td>${fd(x.d)}</td><td>PLC000481</td><td>Kandasamy / PLC000481</td><td>10800</td><td>0</td><td>${x.mo}</td><td>${(x.mo/108).toFixed(2)}</td><td>0</td><td>0</td><td>0</td><td>${10800-x.mo}</td><td>${x.f.toFixed(1)}</td><td>${x.q}</td><td>${x.t.toFixed(1)}</td><td>${x.q?(x.t/x.q).toFixed(3):'0.000'}</td></tr>`).join('');
+const dtI=`<input type="date" class="wi wk wdt" data-k="date" value="${W.date}">`;
+return `<div class="wph"><div><h1>Day Entry</h1><div class="sub">Record daily mortality, feed consumption, body weight, and view consolidated reports.</div></div><div style="display:flex;gap:8px"><select class="wi" style="width:200px"><option>Kandasamy — PLC000481 (Kandasamy)</option></select><input type="date" class="wi" style="width:201px" value="2026-10-12" data-a="dtoast"></div></div>
+<div class="wc"><h3>Mortality</h3><div class="wf"><label class="wl">Date</label>${dtI}</div><div class="wf" style="margin:0"><label class="wl">Mortality (Nos)</label><input class="wi wk" data-k="m" value="${W.m}"></div></div>
+<div class="wc"><h3>Feed Consumption</h3><div class="wf"><label class="wl">Date</label>${dtI}</div><div class="wf" style="margin:0"><label class="wl">Feed Consumption (Kg)</label><input class="wi wk" data-k="f" value="${W.f}"></div></div>
+<div class="wc"><div class="wbw"><h3>Body Weight</h3><span><b>Batch:</b> Kandasamy - PLC000481 &nbsp;|&nbsp; <b>Birds:</b> 10,800 &nbsp;|&nbsp; <b>Age:</b> Day 155</span></div><table class="wt2"><tr><th style="width:19%">Group</th><th style="width:21%">Quantity (Nos)</th><th style="width:21%">Total Weight (Kg)</th><th style="width:21%">Average Weight (Kg)</th><th style="text-align:center">Action</th></tr>${rows}</table><p style="margin-top:28px"><a href="#" class="wlk" data-a="wadd">Add new line</a></p></div>
+<div style="display:flex;justify-content:flex-end;gap:12px;margin-bottom:24px"><button class="wbtn" data-a="wreset">Reset</button><button class="wbtn p" data-a="wsave">Save</button></div>
+<div class="wc wrp"><h3>Day Entry - Consolidated Report (Date Wise)</h3><div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start"><input class="wi" style="width:197px" readonly value="28/09/2026 - 12/10/2026"><select class="wi" style="width:140px"><option>Select branch ...</option><option>Namakkal</option></select><select class="wi" style="width:130px"><option>Select line ...</option><option>Aniyapuram</option></select><select class="wi" style="width:140px"><option>Kandasamy</option></select><select class="wi" style="width:130px"><option>PLC000481</option></select><div style="display:flex;gap:8px;position:relative"><button class="wbtn p" style="height:32px" data-a="dtoast">Search</button><button class="wbtn" style="height:32px" data-a="wreset">Reset</button><button class="wbtn o" data-a="wexp">Export ▾</button>${W.exp?'<div style="position:absolute;top:36px;left:128px;background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.12);z-index:3;min-width:110px">'+['Excel','PDF','CSV'].map(x=>`<a href="#" data-a="wexp2" data-x="${x}" style="display:block;padding:8px 14px;font-size:13px">${x}</a>`).join('')+'</div>':''}</div></div>
+<div style="overflow-x:auto;margin-top:16px"><table class="wt2 wrt" style="min-width:1000px"><thead><tr><th>Date</th><th>Batch</th><th>Farmers /<br>Placement</th><th>Opening<br>Birds</th><th>Placed</th><th>Mortality<br>(Nos)</th><th>Mortality<br>(%)</th><th>Culling</th><th>Sales</th><th>Adjustment</th><th>Closing<br>Birds</th><th>Feed<br>Consumption<br>(Kg)</th><th>Body<br>Weight<br>(Qty)</th><th>Total<br>Weight<br>(Kg)</th><th>Avg<br>Weight<br>(Kg)</th></tr></thead><tbody>${rc||'<tr><td colspan="15" style="text-align:center;color:#555;padding:14px">No records found for the selected criteria and date range.</td></tr>'}</tbody><tfoot><tr><td colspan="3">Total</td><td>${R.length*10800}</td><td>0</td><td>${sm('mo')}</td><td>${(sm('mo')/108).toFixed(2)}</td><td>0</td><td>0</td><td>0</td><td>${R.length*10800-sm('mo')}</td><td>${sm('f').toFixed(1)}</td><td>${qq}</td><td>${tw.toFixed(1)}</td><td>${qq?(tw/qq).toFixed(3):'0.000'}</td></tr></tfoot></table></div>
+<div class="wnote">Note:<br>1. Data is shown between the From and To dates only when any one of Mortality, Sales, or Bird Adjustment is recorded on that date.<br>2. Values are consolidated for selected filters (Branch, Line, Farmer, Batch).</div></div>`}
+function gread(){const a=$('#gf');if(a){W.gf=a.value;W.gt=$('#gt').value;W.gq=$('#gq').value}}
+function wgc(){const L=WG.filter(g=>(!W.gf||g[0]>=W.gf)&&(!W.gt||g[0]<=W.gt)&&(!W.gq||g[1].toLowerCase().includes(W.gq.toLowerCase()))&&(W.gtab?true:g[3]>0));
+return `<div class="wc" style="padding:20px 24px 40px"><h3 style="margin:10px 0 0;font-size:22px">Growing Charge</h3><div class="wtabs"><button class="${W.gtab?'':'on'}" data-a="gtab" data-t="0">Outstanding</button><button class="${W.gtab?'on':''}" data-a="gtab" data-t="1">All</button></div>
+<div class="wrow"><div style="width:187px"><label class="wl">From</label><input type="date" id="gf" class="wi" value="${W.gf}"></div><div style="width:187px"><label class="wl">To</label><input type="date" id="gt" class="wi" value="${W.gt}"></div><div style="width:285px"><label class="wl">Growingcharge No</label><input id="gq" class="wi" placeholder="Search..." value="${W.gq}"></div><div style="width:187px"><button class="wbtn o" style="width:100%;height:32px;color:#555;border-color:#444" data-a="gflt">Filter</button></div></div>
+<table class="wgt" style="margin-top:20px"><thead><tr><th>Date</th><th>Growing Charge #</th><th>Due Date</th><th>Amount</th><th>Balance</th><th></th></tr></thead><tbody>${L.map(g=>`<tr><td>${fd(g[0])}</td><td>${g[1]}</td><td>${fd(g[0])}</td><td>${A2(g[2])}</td><td>${A2(g[3])}</td><td><button class="wvw" data-a="gview" data-i="${g[1]}">View</button></td></tr>`).join('')||'<tr><td colspan="6" style="color:#6b7280">No records found</td></tr>'}</tbody></table></div>`}
+function wgcd(){const g=WG.find(x=>x[1]==S.gcid)||WG[0],gr=g[2]+100,q=+(gr/6.5).toFixed(2),f=n=>n.toLocaleString('en-US',{minimumFractionDigits:2}),r='style="text-align:right"';
+return `<div class="wph" style="margin-bottom:16px"><div><a href="#" data-a="gcb" style="font-size:13px;color:#555">← Back to Growing Charge</a><h1 style="font-size:20px;margin-top:6px">${g[1]}</h1></div><div style="display:flex;gap:8px"><button class="wbtn o" data-a="gcp">Print</button><button class="wbtn b" style="height:32px" data-a="gcp">Download PDF</button></div></div>
+<div class="wc"><div class="wsum"><div><small>Date</small><b>${fd(g[0])}</b></div><div><small>Due Date</small><b>${fd(g[0])}</b></div><div><small>Amount</small><b>${A2(g[2])}</b></div><div><small>Balance</small><b>${A2(g[3])}</b></div></div></div>
+<div class="wc"><h3 style="font-size:17px;margin:4px 0 14px 6px">Line Items</h3><table class="wgt"><thead><tr><th>Item</th><th ${r}>Qty</th><th ${r}>Rate</th><th ${r}>Amount</th></tr></thead><tbody><tr><td>Growing charge</td><td ${r}>${q}</td><td ${r}>6.50</td><td ${r}>${f(gr)}</td></tr><tr><td>Penalty (Deduction)</td><td ${r}>1</td><td ${r}>100.00</td><td ${r}>-100.00</td></tr></tbody></table></div>`}
+function wstmt(){const f=W.sf,t=W.st,tx=f<='2026-01-07'&&t>='2026-01-07',op=f<='2026-01-07'?-52225:0,cr=tx?52225:0,cl=op+cr,B=b=>b<0?A2(-b)+' Dr':A2(b)+' Cr';
+return `<div class="wph"><div><h1>Statement of Accounts</h1><div class="sub">Kandasamy (FR30) · Farmer</div></div><div style="display:flex;gap:8px"><button class="wbtn o" data-a="spdf">Print</button><button class="wbtn b" style="height:32px" data-a="spdf">Download PDF</button></div></div>
+<div class="wc"><div class="wrow"><div style="width:187px"><label class="wl">From</label><input type="date" id="wsf" class="wi" value="${f}"></div><div style="width:187px"><label class="wl">To</label><input type="date" id="wst" class="wi" value="${t}"></div><div style="width:187px"><button class="wbtn o" style="width:100%;height:32px;color:#555;border-color:#444" data-a="sapply">Apply</button></div></div></div>
+<div class="wc"><h3 style="margin-bottom:12px">Account Summary</h3><div class="wsum"><div><small>Opening Balance</small><b>${B(op)}</b></div><div><small>Total Debit</small><b>₹ 0.00</b></div><div><small>Total Credit</small><b>${A2(cr)}</b></div><div><small>Closing Balance</small><b>${B(cl)}</b></div></div></div>
+<div class="wc"><h3 style="margin-bottom:12px">Ledger <span style="font-size:16px;font-weight:400;color:#555;margin-left:6px">${fd(f)} – ${fd(t)}</span></h3>${tx?`<table class="wgt"><thead><tr><th>Date</th><th>Particulars</th><th>Debit</th><th>Credit</th><th>Balance</th></tr></thead><tbody><tr><td>07/01/2026</td><td>Growing charge GC000368</td><td>₹ 0.00</td><td>₹ 52225.00</td><td>₹ 0.00 Cr</td></tr></tbody></table>`:'<p style="font-size:16px">No transactions in this period.</p>'}</div>`}
+function wdet(){const rq=`<a href="#" class="wlk" data-a="dtoast">Request a change</a>`,k=(a,b)=>`<div><small>${a}</small><b>${b}</b></div>`;
+return `<div class="wph"><h1>My Details</h1><div style="display:flex;gap:8px"><button class="wbtn o" data-a="dtoast">Change Password</button><button class="wbtn b" style="height:32px" data-a="dtoast">Message Us</button></div></div>
+<div class="wc"><div style="display:flex;justify-content:space-between"><h3 style="margin-bottom:12px">Portal Login</h3>${rq}</div><div class="wdl" style="grid-template-columns:1fr 1fr 1fr">${k('Name','Kandasamy')}${k('Email','kandasamy@poultry.care')}</div></div>
+<div class="wc"><div style="display:flex;justify-content:space-between"><h3 style="margin-bottom:12px">Farmer — Kandasamy <span style="font-weight:400;color:#555">(FR30)</span></h3>${rq}</div><div class="wdl">${k('Code','FR30')}${k('Email','Kandasamy@poultry.care')}${k('Phone','9966887755')}${k('GSTIN / Tax No','—')}${k('PAN','—')}${k('Address','1/122 North street, Saleem road, Namakkal-637001, Namakkal, 637001')}</div></div>`}
+const WEBP={entry:wentry,gc:wgc,gcd:wgcd,stmt:wstmt,det:wdet};
+function WA(t){return{dl:()=>toast('Prototype: '+t.dataset.n+' downloaded'),gto:()=>{mread();S.gto=+t.dataset.t;render()},mgflt:()=>{mread();render();toast('Filter applied')},vb:()=>{S.bid='PLC000481';S.bt=0;go('batch')},bopen:()=>{S.bid=t.dataset.b;S.bt=0;go('batch')},bback:()=>go('perf'),btab:()=>{S.bt=+t.dataset.t;render()},gpdf:()=>{S.gcid=t.dataset.g;S.gback='batch';go('gcd')},ppdf:()=>openDoc('perf',t.dataset.b,'batch'),rpdf:()=>openDoc('dayrep','m','entry'),ovd:()=>{S.bg=1;go('perf')},dback:()=>go(S.dback),dprint:()=>{try{window.print()}catch(e){toast('Print is not available in this preview')}},dpdf:()=>toast('PDF downloaded: '+({gc:S.doc.id,perf:S.doc.id+'_Performance',stmt:'Statement',dayrep:'DayEntry_Report'}[S.doc.k])+'.pdf (prototype)'),dtoast:()=>toast('Prototype: action done'),wadd:()=>{W.rows.push({q:'',t:''});render()},wrem:()=>{W.rows.splice(+t.dataset.r,1);render()},
+wreset:()=>{W.m='0';W.f='0';W.rows=[{q:'',t:''}];render();toast('Reset')},
+wsave:()=>{const q=W.rows.reduce((a,r)=>a+(+r.q||0),0),w=W.rows.reduce((a,r)=>a+(+r.t||0),0);if(!(+W.m||+W.f||q||w)){toast('Enter mortality, feed or body weight to save');return}W.recs.push({d:W.date,mo:+W.m||0,f:+W.f||0,q:q,t:w});W.m='0';W.f='0';W.rows=[{q:'',t:''}];render();toast('Day entry saved successfully ✓')},
+wexp:()=>{W.exp=W.exp?0:1;render()},wexp2:()=>{W.exp=0;if(t.dataset.x=='PDF'){openDoc('dayrep','w','entry');return}render();toast('Exporting '+t.dataset.x+'…')},
+gtab:()=>{gread();W.gtab=+t.dataset.t;render()},gflt:()=>{gread();render();toast('Filter applied')},gview:()=>{S.gcid=t.dataset.i;go('gcd')},gcb:()=>go('gc'),gcp:()=>openDoc('gc',S.gcid,'gcd'),
+sapply:()=>{W.sf=$('#wsf').value;W.st=$('#wst').value;render()},spdf:()=>openDoc('stmt','w','stmt')}}
+function winput(e){const d=e.target.dataset;if(d.r!==undefined&&d.k){W.rows[d.r][d.k]=e.target.value;const a=$('#wa'+d.r);if(a)a.value=av(W.rows[d.r])}else if(d.k){W[d.k]=e.target.value;if(d.k=='date')document.querySelectorAll('.wdt').forEach(x=>x.value=e.target.value)}}
+const MP=[['dash','Dashboard','Dashboard','home'],['entry','Dayentry','Day Entry','edit'],['perf','Batches','Batches','layers'],['gc','Growing Charge','Growing Charge','rs'],['pay','Payments','Payments','card'],['stmt','Statement','Statement','book'],['det','My Details','My Details','user']];
+const ad=(s,n)=>{const d=new Date(s+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)},dmy=s=>{const d=new Date(s+'T00:00:00Z');return d.getUTCDate()+' '+d.toLocaleString('en',{month:'short',timeZone:'UTC'})+' '+d.getUTCFullYear()};
+GC.splice(5,5,['GC000220','2024-03-16','PLC000262',118885],['GC000181','2024-01-12','PLC000240',111475],['GC000132','2023-05-26','PLC000218',127725],['GC000098','2023-03-07','PLC000195',111475],['GC000067','2023-01-23','PLC000171',67320]);
+const BT=[{id:'PLC000481',pl:'2026-05-11',st:'Active',fcr:'1.62',mp:'1.85'}].concat(GC.map((g,i)=>({id:g[2],cl:g[1],pl:ad(g[1],-47),gc:g[0],amt:g[3],st:'Closed',i:i,fcr:(1.55+(i%5)*.03).toFixed(2),cm:150+(i*13)%70,mp:((150+(i*13)%70)/108).toFixed(2)})));
+const pill=a=>`<span class="pill" style="${a?'background:#dcfce7;color:#15803d':'background:#eceef1;color:#4b5563'}">${a?'Active':'Closed'}</span>`;
+function perfB(b){const a=b.st=='Active',i=b.i||0,f=b.fcr;
+const r=a?[['Mean Age','0'],['C.F.I Per Bird','0'],['Avg. Wt','0'],['FCR / CFCR','0 / 0.5','f'],['Cum. Mortality','200'],['Mortality %','1.85 %'],['Pro. No. (Batch Seq)',''],['Prod. Cost','0'],['Day. Gain','0'],['R.F.T. Out %','0'],['E.F.T. Out %','0'],['First Week Mort %','0.36 %'],['Last Week Mort %','0.57 %'],['Culls %','0']]:[['Mean Age','45'],['C.F.I Per Bird','3.82'],['Avg. Wt','2.46'],['FCR / CFCR',f+' / '+(f-.04).toFixed(2),'f'],['Cum. Mortality',b.cm],['Mortality %',b.mp+' %'],['Pro. No. (Batch Seq)',10-i],['Prod. Cost',(62+i%4*1.3).toFixed(2)],['Day. Gain','54.7'],['R.F.T. Out %','0.41'],['E.F.T. Out %','0.38'],['First Week Mort %','0.42 %'],['Last Week Mort %','0.51 %'],['Culls %','0.12']];
+return `<div class="card rec"><div class="t"><h3>POULTRYCARE ERP</h3><p>69/13,A-3, Jettikula Street, (Opp.Ulavarshanthai), SP Pudhur, Namakkal.</p><p>E-mail: www.poultry.care | Phone: 8189805678</p><b>COMMERCIAL BROILER RECORD</b></div><div class="kv"><span>Date of Placement:</span><span>${fd(b.pl)}</span><span>Placement No:</span><span class="rd">${b.id}</span><span>Hatchery Placement:</span><span>Manikandan</span><span>Flock Name:</span><span></span><span>Square Feet (Capacity):</span><span>12,000</span><span>Branch:</span><span>Namakkal</span><span>Line:</span><span>Aniyapuram</span><span>Supervisor Name:</span><span>Manikandan S (EMP000001)</span><span>No. of Chicks Supplied:</span><span class="bl">10,800</span><span>A/c Close Date:</span><span>${a?'08/06/2026':fd(b.cl)}</span></div><h4>PERFORMANCE</h4><table class="pt">${r.map(x=>`<tr class="${x[2]||''}"><td>${x[0]}</td><td>${x[1]}</td></tr>`).join('')}</table></div>`}
+function batchesPg(){return `<div class="pc"><div class="card hd"><div class="row"><h3>Batches</h3><span>${BT.length} Batches</span></div><p>Tap a batch to see its performance and growing charge for Kandasamy.</p></div><div class="gcs">${BT.map(b=>{const a=b.st=='Active';return `<div class="card gk" data-a="bopen" data-b="${b.id}" style="cursor:pointer"><div class="a"><b>${b.id}</b>${pill(a)}</div><div class="gch"><span>${ic('cal')}Placed ${dmy(b.pl)}</span><span>${a?'Day '+S.day:'Closed '+dmy(b.cl)}</span></div><div class="gkv"><div><small>FCR</small><b>${b.fcr}</b></div><div class="r"><small>MORTALITY</small><b class="big">${b.mp} %</b></div></div></div>`}).join('')}</div></div>`}
+function batchDet(){const b=BT.find(x=>x.id==S.bid)||BT[0],a=b.st=='Active';
+const g=a?`<div class="card hd" style="color:#6b7280">Growing charge will be generated after this batch is closed.</div>`:`<div class="card gc" style="cursor:default"><div class="a"><b>${b.gc}</b><div style="display:flex;align-items:center;gap:8px"><span class="pill">Balance Due</span><button class="eye" data-a="gpdf" data-g="${b.gc}" aria-label="View ${b.gc}">${ic('eye')}</button></div></div><div class="m">${ic('cal')}${b.cl} &nbsp;Due: ${b.cl} &nbsp;Batch: ${b.id}</div><div class="v"><span>TOTAL AMOUNT</span><span>DUE BALANCE</span></div><div class="v2"><span>${M(b.amt)}</span><span class="d">${M(gcInfo(b.gc).bal)}</span></div></div>`;
+return `<div class="pc"><button data-a="bback" style="text-align:left;color:var(--p);font-weight:600">‹ All Batches</button><div class="card pf"><div class="t"><b>${b.id}</b>${pill(a)}</div><div class="in"><div><span>Farmer</span><b>Kandasamy</b></div><div><span>Placed On</span><b>${dmy(b.pl)}</b></div><div><span>Chicks Supplied</span><b>10,800</b></div><div><span>Branch / Line</span><b>Namakkal / Aniyapuram</b></div><div><span>${a?'Status':'Closed On'}</span><b>${a?'Day '+S.day+' • Active':dmy(b.cl)}</b></div></div></div><div class="tabs card" style="border-radius:12px;overflow:hidden"><button class="${S.bt?'':'on'}" data-a="btab" data-t="0">Performance</button><button class="${S.bt?'on':''}" data-a="btab" data-t="1">Growing Charge</button></div>${S.bt?g:'<div style="position:relative"><button class="eye" style="position:absolute;top:8px;right:8px;width:30px;height:30px;z-index:1" data-a="dl" data-n="Performance_'+b.id+'.pdf" aria-label="Download PDF">'+ic('dl')+'</button>'+perfB(b)+'</div>'}</div>`}
+function mread(){const a=$('#mgf');if(a){S.gf=a.value;S.gt=$('#mgt').value;S.gq=$('#mgq').value}}
+const IN2=n=>'₹ '+n.toLocaleString('en-IN',{minimumFractionDigits:2});
+function gcM(){const L=WG.filter(g=>(!S.gf||g[0]>=S.gf)&&(!S.gt||g[0]<=S.gt)&&(!S.gq||g[1].toLowerCase().includes(S.gq.toLowerCase()))&&(S.gto?g[3]>0:true));
+return `<div class="card hd"><div class="row"><h3>Growing Charge Settlements</h3><span>${L.length} Records</span></div><div class="tabs" style="margin-top:12px;background:none"><button class="${S.gto?'on':''}" data-a="gto" data-t="1">Outstanding</button><button class="${S.gto?'':'on'}" data-a="gto" data-t="0">All</button></div><div class="fl" style="flex-wrap:wrap"><label>From<input type="date" id="mgf" value="${S.gf||''}"></label><label>To<input type="date" id="mgt" value="${S.gt||''}"></label><label style="flex-basis:100%">Growingcharge No<input id="mgq" placeholder="Search..." value="${S.gq||''}"></label><button data-a="mgflt" style="width:100%">Filter</button></div></div><div class="gcs">${L.map(g=>{const b=GC.find(x=>x[0]==g[1]);return `<div class="card gk" data-a="gcc" data-i="${g[1]}" style="cursor:pointer"><div class="a"><b>${g[1]}</b><span class="pill">Balance Due</span></div><div class="gch"><span>${ic('cal')}${g[0]}</span><span>Due: ${g[0]}</span><span>Batch: ${b?b[2]:''}</span></div><div class="gkv"><div><small>TOTAL AMOUNT</small><b>${IN2(g[2])}</b></div><div class="r"><small>DUE BALANCE</small><b class="d">${IN2(g[3])}</b></div></div></div>`}).join('')||'<div class="card hd">No records found</div>'}</div>`}
+const nav=p=>p=='doc'?nav(S.dback):p=='gcd'?'gc':p=='batch'?'perf':p;
+function dlist(){const rows=[];for(let d=150;d>=1;d--){const iso=ad('2026-05-11',d-1);if(S.df&&iso<S.df)continue;if(S.dtt&&iso>S.dtt)continue;rows.push(d)}
+return rows.map(d=>{const x=dd(d),sv=!!S.saved[d],st=sv?'Entry saved':d>=148?'No entry':'Recorded';return `<button ${d==S.day?'id="dsel" ':''}class="${d==S.day?'on':''}" data-a="dpick" data-d="${d}"><div><b>Day ${d}</b><small>${dt(d)}${d==150?' \u2022 Today':''}</small></div><div style="text-align:right"><span>${st}</span>${(d<148||sv)?`<small>${x.m} dead \u2022 ${x.f} kg</small>`:''}</div></button>`}).join('')||'<p style="text-align:center;color:#6b7280;padding:30px 0">No days in this date range</p>'}
+function dfil(e){if(e.target.id=='dff'||e.target.id=='dft'){S.df=$('#dff').value;S.dtt=$('#dft').value;const l=$('#dlst');if(l)l.innerHTML=dlist()}}
+function dayOv(){const c=cumTo(S.day);
+return `<div class="dov"><div class="dsh"><div class="dtop"><div class="dsh-h"><b>Select Day</b><button data-a="dpc">${ic('x')}</button></div><div class="card" style="box-shadow:none;border:1px solid var(--bd);margin-top:14px;padding:12px 14px"><div style="display:flex;justify-content:space-between;align-items:center"><div><b style="font-size:14px">Batch PLC000481</b><small style="display:block;color:var(--mu);font-size:12px;margin-top:2px">Kandasamy \u2022 Placed 11 May 2026 \u2022 Day ${S.day}</small></div>${pill(true)}</div><div class="st" style="border:0;padding:12px 0 0;margin-top:6px"><div>Placed<b>10,800</b></div><div>Cumulative Mortality<b>${c[0]}</b><i>Birds</i></div><div>Cumulative Feed<b>${c[1]}</b><i>kg</i></div><div>Birds Now<b>${(10800-c[0]).toLocaleString('en-US')}</b></div></div></div><div class="dfl"><label>From<input type="date" id="dff" value="${S.df||''}"></label><label>To<input type="date" id="dft" value="${S.dtt||''}"></label><button data-a="dclr">Clear</button></div></div><div id="dlst" class="dl">${dlist()}</div></div></div>`}
+function gcLine(id){const g=WG.find(x=>x[1]==id)||WG[0],gr=g[2]+100;return{g:g,gr:gr,q:+(gr/6.5).toFixed(2)}}
+const f2=n=>n.toLocaleString('en-US',{minimumFractionDigits:2});
+function mgcd(){const L=gcLine(S.gcid),g=L.g,R='style="text-align:right"';
+return `<div class="pc"><div style="display:flex;align-items:center;gap:10px"><button class="eye" data-a="mgcb" aria-label="Back">${ic('back')}</button><div style="font-size:19px;font-weight:700;flex:1">${g[1]}</div><button class="eye" data-a="dl" data-n="${g[1]}.pdf" aria-label="Download PDF">${ic('dl')}</button></div>
+<div class="card" style="padding:16px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 12px">${[['Date',fd(g[0])],['Due Date',fd(g[0])],['Amount',A2(g[2])],['Balance',A2(g[3])]].map(x=>`<div><small style="display:block;font-size:11px;letter-spacing:.5px;color:#8a93a3;text-transform:uppercase;font-weight:600;margin-bottom:6px">${x[0]}</small><span style="font-size:15px">${x[1]}</span></div>`).join('')}</div></div>
+<div class="card" style="padding:16px"><h3 style="font-size:16px;margin-bottom:10px">Line Items</h3><table class="wgt mg"><thead><tr><th>Item</th><th ${R}>Qty</th><th ${R}>Rate</th><th ${R}>Amount</th></tr></thead><tbody><tr><td>Growing charge</td><td ${R}>${L.q}</td><td ${R}>6.50</td><td ${R}>${f2(L.gr)}</td></tr><tr><td>Penalty (Deduction)</td><td ${R}>1</td><td ${R}>100.00</td><td ${R}>-100.00</td></tr></tbody></table></div></div>`}
+function openDoc(k,id,back){S.doc={k:k,id:id};S.dback=back;go('doc')}
+const PH='<div style="text-align:center"><b style="font-size:16px">POULTRYCARE ERP</b><div>69/13,A-3, Jettikula Street, (Opp.Ulavarshanthai), SP Pudhur, Namakkal.</div><div>E-mail: www.poultry.care | Phone: 8189805678</div></div>';
+const tt2=t=>`<div style="text-align:center;font-weight:700;margin:12px 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:4px">${t}</div>`,kv2=(a,b)=>`<tr><td style="padding:4px 6px;color:#555;width:42%">${a}</td><td style="padding:4px 6px;font-weight:600">${b}</td></tr>`,R2='style="text-align:right"',A3=n=>'₹ '+n.toLocaleString('en-US',{minimumFractionDigits:2});
+function gcInfo(id){const w=WG.find(g=>g[1]==id),m=GC.find(g=>g[0]==id),amt=w?w[2]:m?m[3]:52225;return{id:id,date:w?w[0]:m?m[1]:'2026-01-07',amt:amt,bal:w?w[3]:amt,batch:m?m[2]:'PLC'+String(+id.slice(2)-14).padStart(6,'0')}}
+function cumTo(d){let m=6,f=0;for(const k in S.saved)if(+k<=d){m+=S.saved[k].m;f+=S.saved[k].f}return[m,f]}
+function repRows(){const r=[];for(let d=Math.max(1,S.day-6);d<=S.day;d++){const x=dd(d),c=cumTo(d);r.push([dt(d),d,x.m,c[0],x.f,c[1],(+x.w).toFixed(2)])}return r.reverse()}
+const repTbl=(sty)=>`<table class="pt" style="${sty}"><tr style="background:#f1f2f4;font-weight:600">${['Date','Day','Mortality','Cum. Mortality','Feed (kg)','Cum. Feed (kg)','Avg Wt (kg)'].map(h=>`<td style="width:auto">${h}</td>`).join('')}</tr>${repRows().map(r=>`<tr>${r.map(c=>`<td style="width:auto">${c}</td>`).join('')}</tr>`).join('')}</table>`;
+function repCard(){return `<div class="ec"><div class="ech" style="cursor:default"><div><b>Consolidated Report</b><small>Day-wise • last 7 days up to Day ${S.day}</small></div></div><div class="rp" style="padding:0 8px">${repTbl('font-size:10px;width:100%;table-layout:fixed;margin:8px 0')}</div><div style="padding:0 14px 14px"><button class="vb" style="margin:6px 0 0" data-a="rpdf">VIEW REPORT PDF</button></div></div>`}
+function docPg(){const d=S.doc||{k:'gc',id:'GC000368'};let h='';
+if(d.k=='gc'){const L=gcLine(d.id),g=L.g;h=PH+tt2('GROWING CHARGE')+`<table style="width:100%;border-collapse:collapse">${kv2('Growing Charge No',g[1])+kv2('Date',fd(g[0]))+kv2('Due Date',fd(g[0]))+kv2('Amount',A2(g[2]))+kv2('Balance',A2(g[3]))}</table><table class="pt" style="margin-top:12px"><tr style="background:#f1f2f4;font-weight:600"><td>Item</td><td ${R2}>Qty</td><td ${R2}>Rate</td><td ${R2}>Amount</td></tr><tr><td>Growing charge</td><td ${R2}>${L.q}</td><td ${R2}>6.50</td><td ${R2}>${f2(L.gr)}</td></tr><tr><td>Penalty (Deduction)</td><td ${R2}>1</td><td ${R2}>100.00</td><td ${R2}>-100.00</td></tr></table>`}
+else if(d.k=='perf')h=perfB(BT.find(x=>x.id==d.id)||BT[0]);
+else if(d.k=='stmt')h=PH+tt2('STATEMENT OF ACCOUNTS')+`<div>Kandasamy (FR30) · Farmer • 01/01/2026 – 07/10/2026</div><table class="pt" style="margin-top:12px"><tr style="background:#f1f2f4;font-weight:600"><td>Date / Particulars</td><td ${R2}>Amount</td><td ${R2}>Balance</td></tr><tr><td>01/01/2026 • OPENING BALANCE</td><td ${R2}>- ₹ 52,225.00</td><td ${R2}>₹ 52,225.00 Dr</td></tr><tr><td>07/01/2026 • Growing charge GC000368</td><td ${R2}>+ ₹ 52,225.00</td><td ${R2}>₹ 0.00 Cr</td></tr><tr style="font-weight:700"><td>Closing Balance</td><td></td><td ${R2}>₹ 0.00 Cr</td></tr></table>`;
+else h=PH+tt2('DAY ENTRY – CONSOLIDATED REPORT (DATE WISE)')+'<div>Farmer: Kandasamy (FR30) • Batch PLC000481 • Namakkal / Aniyapuram</div><div style="overflow-x:auto;margin-top:10px">'+repTbl('min-width:440px')+'</div>';
+return `<div class="pc"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><button data-a="dback" style="color:var(--p);font-weight:600">‹ Back</button><div style="display:flex;gap:8px"><button class="wbtn" data-a="dprint">Print</button><button class="wbtn p" data-a="dpdf">Download PDF</button></div></div><div class="paper">${h}</div></div>`}
+function mdash(){const k=(a,v,s,p,o)=>`<button class="card kc${o?' o':''}" ${p}><small>${a}</small><strong>${v}</strong>${s?'<em>'+s+'</em>':''}</button>`;return `<div class="pc"><div class="card hd"><h3 style="font-size:18px">Welcome back, Kandasamy</h3><p>You are signed in to PoultryCare ERP as Farmer.</p></div><div class="sec" style="margin:4px 2px 0">AS FARMER</div><div class="kp m" style="margin:0">${k('Balance Payable','₹ 0.00','','data-a="ovd"')+k('Available Credits','₹ 1042395.50','','data-a="pg" data-p="stmt"')+k('Overdue','₹ 1042088.97','10 items overdue','data-a="ovd"',1)+k('Last Payment Received','—','No payments yet','data-a="pg" data-p="pay"')}</div><div class="card hd"><h3>Need something else?</h3><p>Use the menu for your batches, growing charge, statement of accounts, and account details. Or message us at www.poultry.care if something looks wrong.</p></div></div>`}
+function wbd(p){return p=='gcd'?mgcd():p=='gc'?`<div class="pc">${gcM()}</div>`:p=='perf'?batchesPg():p=='batch'?batchDet():p=='doc'?docPg():body()}
+function mbody(){return S.pg=='dash'?mdash():wbd(S.pg)}
+function body(){const p=S.pg;if(p=='entry')return `<div class="card" style="overflow:hidden;background:#fff">${batch()}${S.tab?eff():entry()}</div>`.replace('<div class="card"','<div class="card"');if(p=='perf')return perf();if(p=='gc')return gc();if(p=='pay')return pay();if(p=='stmt')return stmt();if(p=='det')return det();return dash()}
+function render(){const web=$('#root').classList.contains('mode-web'),p=S.pg;
+$('#wn').innerHTML=PG.filter(x=>x[0]!='entry'||BT.some(b=>b.st=='Active')).map(x=>`<button class="${x[0]==nav(p)?'on':''}" data-a="pg" data-p="${x[0]}">${x[1]}</button>`).join('');
+$('#wm').innerHTML=WEBP[p]?WEBP[p]():`<div class="${['perf','pay','batch','doc'].includes(p)?'wide':''}">${wbd(p)}</div>`;$('.wh').classList.toggle('pl2',p!='dash');$('#wib').innerHTML=(p=='dash'?ic('phone'):ic('dl'))+'Install App';
+$('#mn').innerHTML=MP.filter(x=>x[0]!='entry'||BT.some(b=>b.st=='Active')).map(x=>`<button class="${x[0]==nav(p)?'on':''}" data-a="pg" data-p="${x[0]}">${ic(x[3])}${x[2]}</button>`).join('');
+let m;if(S.mw=='wel')m=`<div class="wel" style="position:relative"><span class="tp">PoultryCare Farmer</span><div class="ic">${ic('user')}</div><small>POULTRYCARE FARMER</small><h1>Welcome, Kandasamy</h1><h3>Kandasamy</h3><h4>Batch PLC000481</h4><p>Day 149 • Active</p><button class="co" data-a="cont">Continue ${ic('chev')}</button><button class="ib" data-a="inst">${ic('phone')} Install App</button></div>`;
+else{const T={entry:S.tab?'EFFICIENCY &amp; FCR':'DAILY ENTRY',perf:'BATCHES',batch:'BATCH DETAILS',doc:'DOCUMENT',dash:'DASHBOARD',gc:'GROWING CHARGE',gcd:'GROWING CHARGE',pay:'PAYMENTS',stmt:'STATEMENT',det:'MY DETAILS'}[p],c=p=='entry';
+m=`<div class="mh ${c?'c':''}"><button data-a="dr">${ic('menu')}</button><h1>${T}</h1>${c?`<button data-a="tab" data-t="${S.tab?0:1}">${ic(S.tab?'edit':'bar')}</button>`:''}</div>${c?`<div style="background:#fff;flex:none">${batch()}</div>`:''}<div class="msc" id="msc">${c?(S.tab?eff():entry()):mbody()}</div>${c&&S.dp?dayOv():''}`;if(c)m=m}
+$('#mc').innerHTML=m}
+function toast(t){const e=$('#ts');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2200)}
+function modal(){const I={Android:['Open <b>Chrome</b> or <b>Edge</b> on your Android phone.','Tap the <b>three dots (⋮)</b> in the top-right corner.','Select <b>"Install app"</b> or <b>"Add to Home screen"</b>.','The PoultryCare app icon will appear on your home screen like any native APK!'],'iOS (iPhone)':['Open <b>Safari</b> on your iPhone.','Tap the <b>Share</b> button at the bottom.','Select <b>"Add to Home Screen"</b>.','Tap <b>Add</b>. The PoultryCare icon appears on your home screen!'],Desktop:['Open <b>Chrome</b> or <b>Edge</b> on your computer.','Click the <b>install icon</b> in the address bar.','Select <b>"Install"</b> in the prompt.','PoultryCare opens in its own window like a native app!']};
+$('#mbx').innerHTML=`<button class="x" data-a="mx">${ic('x')}</button><div class="mt"><div class="i">${ic('phone')}</div><div><b>Install PoultryCare Mobile App</b><p>Get a faster and more convenient experience with notifications &amp; persistent login.</p></div></div><button class="go" data-a="apk">${ic('dl')} 1-Click Install App</button><div class="pl">${[['Android','phone'],['iOS (iPhone)','phone'],['Desktop','desk']].map(x=>`<button class="${S.it==x[0]?'on':''}" data-a="it" data-i="${x[0]}">${ic(x[1])}${x[0]}</button>`).join('')}</div><div class="stp">${I[S.it].map((s,i)=>`<div><i>${i+1}</i><span>${s}</span></div>`).join('')}</div><div class="ft"><span>${ic('bell')}30-Day Persistent Login</span><span>${ic('phone')}Works on Phone &amp; Desktop</span></div>`;$('#md').classList.add('on')}
+function go(p){S.dp=0;S.pg=p;S.mw='app';$('#dr').classList.remove('on');$('#ov').classList.remove('on');render();window.scrollTo(0,0);const s=$('#msc');if(s)s.scrollTop=0}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a;
+if(a=='mx'){if(e.target.closest('.mb')&&!e.target.closest('.x'))return;$('#md').classList.remove('on');return}
+e.preventDefault();
+({pg:()=>go(t.dataset.p),inst:()=>{const u=navigator.userAgent;S.it=/iPhone|iPad|iPod/i.test(u)?'iOS (iPhone)':/Android/i.test(u)?'Android':'Desktop';modal()},it:()=>{S.it=t.dataset.i;modal()},apk:()=>installApp(),lnk:()=>toast('Opens www.poultry.care'),out:()=>{toast('Signed out (prototype)');go('dash');S.mw='wel';render()},
+cont:()=>{S.pg='entry';S.mw='app';S.tab=0;render()},dr:()=>{$('#dr').classList.toggle('on');$('#ov').classList.toggle('on')},
+day:()=>{const d=S.day+ +t.dataset.d;if(d<1||d>150){toast(d>150?'Cannot open a future day':'Day 1 is the first day');return}S.day=d;S.form={m:'',f:'',w:''};render()},dpo:()=>{S.dp=1;S.df='';S.dtt='';render();const e=$('#dsel');if(e)e.scrollIntoView({block:'center'})},dclr:()=>{S.df='';S.dtt='';$('#dff').value='';$('#dft').value='';$('#dlst').innerHTML=dlist()},dpc:()=>{S.dp=0;render()},dpick:()=>{const d=+t.dataset.d;if(d<1||d>150)return;S.day=d;S.form={m:'',f:'',w:''};S.dp=0;render()},
+tab:()=>{S.tab=+t.dataset.t;S.sl=0;render()},sl:()=>{S.sl=+t.dataset.s;render()},col:()=>{S.col=S.col?0:1;render()},
+save:()=>{const ex=!!S.saved[S.day];S.saved[S.day]={m:+$('#fm').value||0,f:+$('#ff').value||0,w:+$('#fw').value||0};S.form={m:'',f:'',w:''};toast('Day '+S.day+(ex?' updated':' saved')+' successfully ✓');render()},
+gcc:()=>{S.gcid=t.dataset.i;S.gback='gc';go('gcd')},mgcb:()=>go(S.gback=='batch'?'batch':'gc'),flt:()=>{S.from=$('#sf').value;S.to=$('#st').value;render();toast('Filter applied')},pdf:()=>openDoc('stmt','m','stmt'),
+vw:()=>{setView(t.dataset.v)},...WA(t)}[a]||(()=>{}))()});
+document.addEventListener('input',e=>{const k={fm:'m',ff:'f',fw:'w'}[e.target.id];if(k)S.form[k]=e.target.value;winput(e);dfil(e)});
+
+
+function setView(v){if(v=='web'&&S.pg=='batch')S.pg='perf';const r=$('#root');const small=innerWidth<820;r.className=v=='mobile'?'mode-mobile'+(small?'':' framed'):'mode-web';document.documentElement.classList.toggle('framed',v=='mobile'&&!small);document.body.classList.toggle('framed',v=='mobile'&&!small);document.querySelectorAll('#vs button').forEach(b=>b.classList.toggle('on',b.dataset.v==v));if(v=='mobile'){S.mw='wel';if(S.pg!='dash'&&small)S.mw='app'}render()}
+function auto(){const small=innerWidth<820;$('#vs').style.display=small?'none':'flex';const cur=$('#root').classList.contains('mode-mobile');if(small&&!cur)setView('mobile');if(!small&&cur&&!$('#root').classList.contains('framed'))setView('web')}
+addEventListener('resize',auto);
+(function(){const f=document.createElement('style');f.textContent='.framed{background:#d9dce2!important}';document.head.appendChild(f)})();
+(function(){let el=null,sy=0,st=0,mv=false;
+document.addEventListener('pointerdown',e=>{if(e.pointerType!='mouse'||e.button!==0||e.target.closest('input,select,textarea'))return;el=e.target.closest('#dlst')||e.target.closest('.msc');if(!el)return;sy=e.clientY;st=el.scrollTop;mv=false});
+document.addEventListener('pointermove',e=>{if(!el)return;const dy=e.clientY-sy;if(Math.abs(dy)>5)mv=true;if(mv){el.scrollTop=st-dy;el.style.cursor='grabbing'}});
+document.addEventListener('pointerup',()=>{if(el)el.style.cursor='';el=null;setTimeout(()=>{mv=false},0)});
+document.addEventListener('click',e=>{if(mv){e.stopPropagation();e.preventDefault()}},true);
+})();
+let DP=null;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();DP=e});
+addEventListener('appinstalled',()=>{DP=null;$('#md').classList.remove('on');toast('PoultryCare installed \u2713')});
+function installApp(){
+ if(matchMedia('(display-mode: standalone)').matches||navigator.standalone){toast('App is already installed');return}
+ if(DP){DP.prompt();DP.userChoice.finally(()=>{DP=null});return}
+ toast(/iPhone|iPad|iPod/i.test(navigator.userAgent)?'iPhone: tap Share \u2192 Add to Home Screen':'Open browser menu \u22ee \u2192 Install app')}
+if('serviceWorker' in navigator&&location.protocol.indexOf('http')==0)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+(function(){
+ let busy=false,until=0,acc=0,accT=null,tx0=null,ty0=0,mdown=false,mx0=0,my0=0,sup=false;
+ const vis=()=>$('#root').classList.contains('mode-mobile')&&S.pg=='entry'&&!S.dp&&!$('#dr').classList.contains('on')&&!$('#md').classList.contains('on');
+ const horiz=(dx,dy)=>Math.abs(dx)>=70&&Math.abs(dx)>=1.6*Math.abs(dy);
+ function flip(dir){ /* +1 = next day (slides in from right), -1 = previous day (slides in from left) */
+  if(busy)return;const d=S.day+dir;
+  if(d<1||d>150){toast(d<1?'Day 1 is the first day':'Cannot open a future day');busy=true;setTimeout(()=>{busy=false},600);return}
+  busy=true;until=Date.now()+700;
+  const mc=$('#mc'),mob=$('#mob'),old=mc.cloneNode(true);
+  old.removeAttribute('id');old.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
+  old.style.cssText='position:absolute;left:0;right:0;top:0;bottom:0;z-index:1;pointer-events:none;background:var(--bg)';
+  mob.insertBefore(old,mc);
+  S.day=d;S.form={m:'',f:'',w:''};render();
+  mc.classList.add(dir>0?'frt':'flt');
+  setTimeout(()=>{old.remove();mc.classList.remove('frt','flt');busy=false},340)}
+ addEventListener('wheel',e=>{if(!vis()||!e.target.closest('#mc')||Date.now()<until)return;
+  const dx=e.deltaX||(e.shiftKey?e.deltaY:0);if(!dx||(!e.shiftKey&&Math.abs(e.deltaX)<Math.abs(e.deltaY)))return;
+  acc+=dx;clearTimeout(accT);accT=setTimeout(()=>{acc=0},180);
+  if(Math.abs(acc)>=90){const dir=acc>0?1:-1;acc=0;flip(dir)}},{passive:true});
+ addEventListener('touchstart',e=>{if(!vis()||!e.target.closest('#mc')||e.touches.length!=1){tx0=null;return}tx0=e.touches[0].clientX;ty0=e.touches[0].clientY},{passive:true});
+ addEventListener('touchend',e=>{if(tx0==null)return;const t=e.changedTouches[0],dx=t.clientX-tx0,dy=t.clientY-ty0;tx0=null;if(!horiz(dx,dy))return;flip(dx<0?1:-1)},{passive:true});
+ addEventListener('pointerdown',e=>{if(e.pointerType!='mouse'||e.button!==0||!vis()||!e.target.closest('#mc')||e.target.closest('input,select,textarea')){mdown=false;return}mdown=true;mx0=e.clientX;my0=e.clientY});
+ addEventListener('pointerup',e=>{if(!mdown)return;mdown=false;const dx=e.clientX-mx0,dy=e.clientY-my0;if(!horiz(dx,dy))return;sup=true;setTimeout(()=>{sup=false},0);flip(dx<0?1:-1)});
+ addEventListener('click',e=>{if(sup){e.stopPropagation();e.preventDefault()}},true);
+})();
+render();auto();
+</script></body></html>
