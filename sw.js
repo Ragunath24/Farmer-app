@@ -1,4 +1,4 @@
-const V = 'poultrycare-v9';
+const V = 'poultrycare-v10';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 
 self.addEventListener('install', e => {
